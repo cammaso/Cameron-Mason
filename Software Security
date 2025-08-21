@@ -1,0 +1,10 @@
+/security-class-showcase
+  /reports
+    final_report.md
+  /presentations
+    showcase_slides.pdf
+  /projects
+    penetration_test/
+      README.md
+      test_results.txt
+  README.md
