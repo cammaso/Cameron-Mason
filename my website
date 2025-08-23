@@ -1,1 +1,535 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="stylesheet" type="text/css" href="style.css">
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<title>ByteForge</title>
+<meta charset="utf-8">
+
+<style>
+	nav {float: left; width: 90px;}
+	nav ul { list-style-image: url('game.png'); padding-left:60px;}
+	main {margin-left: 150px;background-color: #fff0f0;}
+	footer {margin-left: 150px;background-color: #000000;}
+	body { font-family: Georgia, Arial, sans-serif:}
+	#wrapper { width: 80%; margin-left: auto; margin-right: auto; background-color: white;}
+	0
+</style>
+
+</head>
+<body>
+<div id="wrapper">
+	<header>
+		<h1 style="color:#cc0000; font-family: Arial, sans-serif; font-weight: bold; text-shadow: 5px 5px 5px #000000; font-size: 50px;"> Welcome to ByteForge </h1>
+	</header>
+<script>
+var todayIs=new Date();
+var myBday = new Date("January 1, 2025");
+var maSince = myBday.getTime() - todayIs.getTime();
+var daysLeft = Math.floor(maSince / (1000 * 60 * 60 * 24));
+document.write('<h3 style="color:#cc0000; font-family: Arial, sans-serif; font-weight: bold; text-shadow: 5px 5px 5px #000000; font-size: 25px;">There are ' + daysLeft + ' days left until New Year!</h3>');
+</script>
+		<nav>
+			<ul>
+				<li><b><a href="index.html">Home</a></li>	&nbsp;
+				<li><a href="resources.html">Links</a></li>	&nbsp;
+				<li><a href="gallery.html">Images</a></li>	&nbsp;
+				<li><a href="customerform.html">Behind the Scenes</a></li>	&nbsp;
+				<li><a href="staffdirectory.html">Contact Us</a></li>	&nbsp;
+
+				</b>
+			<ul>
+		</nav>
+	<main>
+		<h3  style="color:#cc0000; font-family: Arial, sans-serif;">Visit us and get expert knowledge on our supplies</h2>
+<form method="post"action="mailto:cmason@go.tarleton.edu">
+	
+	<div>
+		<label for="myName">First Name:</label>
+		<input type="text" name="myName" id="myName" required="required" placeholder="first name"
+	</div>
+<br><br>
+	<div>
+		<label for="myName">Last Name:</label>
+		<input type="text" name="myName" id="myName" required="required" placeholder="Last name"
+	</div>
+<br><br>
+	<div>
+		<label for="Phone">Phone:</label>
+		<input type="tel" name="Phone" id="Phone" required="required" placeholder="Phone Number"
+	</div>
+<br><br>
+	<div>
+		<label for="myEmail">E-mail:</label>
+		<input type="email" name="myEmail" id="myEmail" required="required" placeholder="you@yourdomain.com">
+	</div>
+		<h4> Select what you're interested in seeing</h4>
+
+	<div>
+	<select size="1" name="part" id="part">
+		<option>Select your part</option>
+		<option value="cpu">CPU</option>
+		<option value="gpu">GPU</option>
+		<option value="ram">RAM</option>
+	</select>
+	</div>
+        <h4>Select a Date to Visit:</h4>
+		<input type="radio" name="date" value="December 20, 2022">December 20, 2024
+           	<input type="radio" name="date" value="December 21, 2022">December 21, 2024
+          	<input type="radio" name="date" value="December 22, 2022">December 22, 2024
+	<div>
+
+		<h4>I would like for your company to also sale (check all that apply):</h4>
+		<input type="checkbox" name="laptops" id="laptops" value="yes">Laptops
+		<input type="checkbox" name="speakers" id="laptops" value="yes">Speakers
+		<input type="checkbox" name="cameras" id="laptops" value="yes">Cameras
+	</div>
+
+<div>
+<br>
+<h4>Please comment below to let us know if you will be bringing any supplies for us to look at on your visit.</hh4><br><br>
+<textarea name="comments" id="comments" cols="40" rows="6"></textarea>
+</div>
+<input id="mySubmit" type="submit" value="Sumbit">
+<input id="myReset" type="reset" value="Reset">
+</form>
+
+</main>
+<footer>
+<lastmod<h5 style="color:#cc0000; font-family: Arial, sans-serif;">Last Modified 12/1/2024 17:56:32</h5></lastmod>
+</footer>
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="stylesheet" type="text/css" href="style.css">
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<title>ByteForge</title>
+<meta charset="utf-8">
+<style>
+	nav {float: left; width: 90px;}
+	nav ul { list-style-image: url('game.png'); padding-left:60px;}
+	main {margin-left: 150px;background-color: #fff0f0;}
+	footer {margin-left: 150px; background-color: #000000;}
+	body { font-family: Georgia, Arial, sans-serif:}
+	#wrapper { width: 80%; margin-left: auto; margin-right: auto; background-color: white;}
+
+.firstborder { border: 7px solid #ff0000; padding: 8px; border-radius: 20px;box-shadow: 5px 5px 10px #000000}
+.secondborder { border: 15px dashed  #000000; padding: 0px; border-radius: 10px; box-shadow: 5px 5px 10px #000000}
+
+</style>
+</head>
+<body>
+<div id="wrapper">
+
+<header>
+	<h1 style="color:#cc0000; font-family: Arial, sans-serif; font-weight: bold; text-shadow: 5px 5px 5px #000000;font-size: 50px;"> Welcome to ByteForge </h1>
+	</header>
+<script>
+var todayIs=new Date();
+var myBday = new Date("January 1, 2025");
+var maSince = myBday.getTime() - todayIs.getTime();
+var daysLeft = Math.floor(maSince / (1000 * 60 * 60 * 24));
+document.write('<h3 style="color:#cc0000; font-family: Arial, sans-serif; font-weight: bold; text-shadow: 5px 5px 5px #000000; font-size: 25px;">There are ' + daysLeft + ' days left until New Year!</h3>');
+</script>
+		<nav>
+			<ul>
+				<li><b><a href="index.html">Home</a></li>	&nbsp;
+				<li><a href="resources.html">Links</a></li>	&nbsp;
+				<li><a href="gallery.html">Images</a></li>	&nbsp;
+				<li><a href="customerform.html">Behind the Scenes</a></li>	&nbsp;
+				<li><a href="staffdirectory.html">Contact Us</a></li>	&nbsp;
+				</b>
+			<ul>
+		</nav>
+<main>
+<script>
+    function Ramclick() {
+        alert("RAM allows you to have multiple tabs open and running at the same time!");
+    }
+</script>
+<script>
+    function caseclick() {
+        alert("Case will protecter your inner computer parts from dust, water, and CATS!");
+    }
+</script>
+		<h2 style="color:#cc0000; font-family: Arial, sans-serif;">Some of Our Parts</h2>
+<e><img src ="case.jpg"
+alt="Gaming computer case"
+width="500" height"60" class="firstborder"onclick="caseclick()">
+</figure></e>
+<br>
+
+<f><img src ="all.jpg"
+alt="Monitors"
+width="500" height"60" class="secondborder"></f>
+<br>
+
+<g><img src ="gpu.jpg"
+alt="Graphic Proccessing Unit"
+width="500" height"60" class="firstborder"></g>
+<br>
+
+<h><img src ="cpu.jpg"
+alt="CPU"
+width="500" height"60" class="secondborder"></h>
+<br>
+
+<j><img src ="ram.png"
+alt="ddr4 Ram"
+width="500" height"60" class="firstborder" onclick="Ramclick()"></j>
+
+</main>
+
+<footer>
+	<h3 style="color:#cc0000; font-family: Arial, sans-serif;"> Contact ByteForge anytime </h3>
+			<h5><p><strong><i style="color:#cc0000; font-family: Arial, sans-serif;">&copy; 2024 Cameron Mason ByteForge Inc.
+			For more information, contact us at </i><a href="contact@ByteForgellc.com">contact@ByteForge.com</a></strong></p></h5>
+<lastmod<h3 style="color:#cc0000; font-family: Arial, sans-serif;">Last Modified 12/1/2024 17:56:32</h3></lastmod>
+</footer>
+</div>
+</body>
+</html>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="stylesheet" type="text/css" href="style.css">
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<title>ByteForge</title>
+<meta charset="utf-8">
+
+<style>
+	nav {float: left; width: 90px;}
+	nav ul { list-style-image: url('game.png'); padding-left:60px;}
+	main {margin-left: 150px;background-color: #fff0f0;}
+	footer {margin-left: 150px;background-color: #000000;}
+	body { font-family: Georgia, Arial, sans-serif:}
+	#wrapper { width: 80%; margin-left: auto; margin-right: auto; background-color: white;}
+	
+</style>
+
+
+</head>
+
+<body>
+	<script>
+		var userName;
+		userName = prompt("Please enter your name");
+		alert("Welcome to the page, " + userName );
+
+	</script>
+<div id="wrapper">
+	<header>
+		<h1 style="color:#cc0000; font-family: Arial, sans-serif; font-weight: bold; text-shadow: 5px 5px 5px #000000; font-size: 50px;"> Welcome to ByteForge </h1>
+	</header>
+<script>
+var todayIs=new Date();
+var myBday = new Date("January 1, 2025");
+var maSince = myBday.getTime() - todayIs.getTime();
+var daysLeft = Math.floor(maSince / (1000 * 60 * 60 * 24));
+document.write('<h3 style="color:#cc0000; font-family: Arial, sans-serif; font-weight: bold; font-size: 25px;">There are ' + daysLeft + 'days left until New Year!</h3>');
+</script>
+		<nav>
+			<ul>
+				<li><b><a href="index.html">Home</a></li>	&nbsp;
+				<li><a href="resources.html">Links</a></li>	&nbsp;
+				<li><a href="gallery.html">Images</a></li>	&nbsp;
+				<li><a href="customerform.html">Behind the Scenes</a></li>	&nbsp;
+				<li><a href="staffdirectory.html">Contact Us</a></li>	&nbsp;
+
+				</b>
+			<ul>
+		</nav>
+	<main>
+	<h2  style="color:#cc0000; font-family: Arial, sans-serif;"> About ByteForge </h2>
+	At ByteForge we save money in every corner. By posting our products online we can minimize cost<br>
+	and save both you and us money! We specialize in computer parts and components.
+
+	<br>Our store was opened in 2021. We are proud to be open <strong>24/7.</strong> We ship overseas and you can also <br>
+	choose a shipping speed. Please take a look around and my email is always open for questions or inquiries. 
+
+
+	<h3  style="color:#cc0000; font-family: Arial, sans-serif;">Our Products</h2>
+<script>
+var quotes=new Array()
+quotes[0]="<h3>Cyber Monday EVERY MONDAY</h3>";
+quotes[1]="<h3>tech tuesday every tuesday</h3>";
+quotes[2]="<h3>all our parts are google certified</h3>";
+quotes[3]="<h3>Use code T3CH for 5% discount</h3>";
+
+randomNum=Math.floor(Math.random()*4);
+document.write("Fact of the day! " + quotes[randomNum]);
+</script>
+	<dl>
+		<dt>CPU (Central Processing Unit)</dt>
+			<dd>
+				CPU is responsible for executing calculations, task, and instructions.
+			</dd>
+		<dt>GPU (Graphic Processing Unit)</dt>
+			<dd>
+				GPU almplifies your graphics, images, and is neccessary for most modern gaming.
+			</dd>
+		<dt>RAM (Random Access Memory)</dt>
+			<dd>
+				RAM is quick access memory and also allows you to have many applications open at once.
+			</dd>
+<video controls width="700" height="450">
+<source src="vid.mp4" type="video/mp4">
+</video>
+	</main>
+	<footer>
+		<h3 style="color:#cc0000; font-family: Arial, sans-serif;"> Contact ByteForge anytime </h3>
+			<h5><p><strong><i style="color:#cc0000; font-family: Arial, sans-serif;">&copy; 2024 Cameron Mason ByteForge Inc.
+			For more information, contact us at </i><a href="contact@ByteForgellc.com">contact@ByteForge.com</a></strong></p></h5>
+<url>
+	<lastmod<h3 style="color:#cc0000; font-family: Arial, sans-serif;">Last Modified 12/1/2024 17:56:32</h3></lastmod>
+
+	</footer>
+</div>
+</body>
+</html>
+
+# Hello, I'm Cameron Mason
+<a href="https://linkedin.com"><img src="https://img.shields.io/badge/-LinkedIn-0072b1?&style=for-the-badge&logo=linkedin&logoColor=white" /></a>
+
+I work IT with a profound interest in technology and a dedication to solving complex problems.
+
+## Objective
+My journey in computer science has led me to develop a passion for cybersecurity, and I am now eager to transition into this field, specifically aiming to join a Security Operations Center (SOC) as a Tier 1 Analyst.
+
+## Skills
+
+| Skill                                         | Associated Project         |
+|-----------------------------------------------|----------------------------|
+| SIEM Implementation and Log Analysis          | <a href="https://google.com">Detection Lab</a>|
+| Network Traffic Monitoring and Attack Detection | <a href="https://google.com">Detection Lab</a>|
+| Security Automation with Shuffle SOAR         | SOC Automation Lab|
+| Incident Response Planning and Execution      | SOC Automation Lab|
+| Case Management with TheHive                  | SOC Automation Lab|
+| Scripting and Automation for Threat Mitigation | SOC Automation Lab|
+
+## Tools
+
+### Network
+<div>
+    <img src="https://img.shields.io/badge/-Wireshark-1679A7?&style=for-the-badge&logo=Wireshark&logoColor=white" />
+    <img src="https://img.shields.io/badge/-Suricata-EF3B2D?&style=for-the-badge&logo=Suricata&logoColor=white" />
+    <img src="https://img.shields.io/badge/-Zeek-777BB4?&style=for-the-badge&logo=Zeek&logoColor=white" />
+</div>
+
+### Endpoint
+<div>
+    <img src="https://img.shields.io/badge/-Microsoft_Defender_for_Endpoint-00A4EF?&style=for-the-badge&logo=Microsoft&logoColor=white" />
+    <img src="https://img.shields.io/badge/-Velociraptor-4B275F?&style=for-the-badge&logo=Velociraptor&logoColor=white" />
+</div>
+
+### SIEM
+<div>
+    <img src="https://img.shields.io/badge/-Microsoft_Sentinel-0078D4?&style=for-the-badge&logo=Microsoft&logoColor=white" />
+    <img src="https://img.shields.io/badge/-Splunk-000000?&style=for-the-badge&logo=Splunk&logoColor=white" />
+    <img src="https://img.shields.io/badge/-Elastic-005571?&style=for-the-badge&logo=Elastic&logoColor=white" />
+</div>
+
+## Certifications
+<div>
+<img src="https://img.shields.io/badge/-Security%2B-FF0000?&style=for-the-badge&logo=CompTIA&logoColor=white" />
+<img src="https://img.shields.io/badge/-Network%2B-007ACC?&style=for-the-badge&logo=CompTIA&logoColor=white" />
+<img src="https://img.shields.io/badge/-A%2B-4D4D4D?&style=for-the-badge&logo=CompTIA&logoColor=white" />
+<img src="https://img.shields.io/badge/-CDSA-006400?&style=for-the-badge&logoColor=white" />
+<img src="https://img.shields.io/badge/-CCD-000080?&style=for-the-badge&logoColor=white" />
+</div>
+
+# My Website
+
+This is my HTML project hosted with GitHub Pages.  
+
+ðŸ‘‰ [Click here to view the live site](https://cammaso.github.io/Cameron-Mason/)
+
+## Projects
+- Detection Lab
+- SOC Automation Project
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="stylesheet" type="text/css" href="style.css">
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<title>ByteForge</title>
+<meta charset="utf-8">
+
+<style>
+		nav {float: left; width: 90px;}
+	nav ul { list-style-image: url('game.png'); padding-left:60px;}
+	main {margin-left: 150px;background-color: #fff0f0;}
+	footer {margin-left: 150px;background-color: #000000;}
+	body { font-family: Georgia, Arial, sans-serif:}
+	#wrapper { width: 80%; margin-left: auto; margin-right: auto; background-color: white;}
+	
+</style>
+
+</head>
+<body>
+<div id="wrapper">
+
+	<header>
+		<h1 style="color:#cc0000; font-family: Arial, sans-serif; font-weight: bold; text-shadow: 5px 5px 5px #000000; font-size: 50px;"> Welcome to ByteForge </h1>
+	</header>
+<script>
+var todayIs=new Date();
+var myBday = new Date("January 1, 2025");
+var maSince = myBday.getTime() - todayIs.getTime();
+var daysLeft = Math.floor(maSince / (1000 * 60 * 60 * 24));
+document.write('<h3 style="color:#cc0000; font-family: Arial, sans-serif; font-weight: bold; text-shadow: 5px 5px 5px #000000; font-size: 25px;">There are ' + daysLeft + ' days left until New Year!</h3>');
+</script>
+		<nav>
+			<ul>
+				<li><b><a href="index.html">Home</a></li>	&nbsp;
+				<li><a href="resources.html">Links</a></li>	&nbsp;
+				<li><a href="gallery.html">Images</a></li>	&nbsp;
+				<li><a href="customerform.html">Behind the Scenes</a></li>	&nbsp;
+				<li><a href="staffdirectory.html">Contact Us</a></li>	&nbsp;
+
+				</b>
+			<ul>
+		</nav>
+	<main>
+		<h2 style="color:#cc0000; font-family: Arial, sans-serif;">Good Resources Before You Purchase</h2>
+			<ul>
+			<li><a href="http://www.pcguide.com" style="text-decoration: none; font-style: italic;font-weight: 900;">Learn What You Will Need</a></li>
+			<li><a href="http://www.pcworld.com" style="text-decoration: none; font-style: italic;font-weight: 900;">Find the Best Parts</a></li>
+			<li><a href="http://www.newegg.com" style="text-decoration: none; font-style: italic;font-weight: 900;">Compare Our Prices</a></li>
+			<li><a href="http://uk.pcpartpicker.com/list/" style="text-decoration: none; font-style: italic;font-weight: 900;">Compatibility List</a></li>
+			<li><a href="http://www.pinterest.com" style="text-decoration: none; font-style: italic;font-weight: 900;">Find Design Inspiration</a></li>
+	</main>
+<br><br><br><br><br><br>
+	<footer>
+		<h3 style="color:#cc0000; font-family: Arial, sans-serif;"> Contact ByteForge anytime </h3>
+			<h5><p><strong><i style="color:#cc0000; font-family: Arial, sans-serif;">&copy; 2024 Cameron Mason ByteForge Inc.
+			For more information, contact us at </i><a href="contact@ByteForgellc.com">contact@ByteForge.com</a></strong></p></h5>
+<lastmod<h3 style="color:#cc0000; font-family: Arial, sans-serif;">Last Modified 12/1/2024 17:56:32</h3></lastmod>
+	</footer>
+</div>
+</ul>
+</body>
+</html>
+
+/security-class-showcase
+  /reports
+    final_report.md
+  /presentations
+    showcase_slides.pdf
+  /projects
+    penetration_test/
+      README.md
+      test_results.txt
+  README.md
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="stylesheet" type="text/css" href="style.css">
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<title>ByteForge</title>
+<meta charset="utf-8">
+
+<style>
+	nav {float: left; width: 90px;}
+	nav ul { list-style-image: url('game.png'); padding-left:60px;}
+	main {margin-left: 150px;background-color: #fff0f0;}
+	footer {margin-left: 150px;background-color: #000000;}
+	body { font-family: Georgia, Arial, sans-serif:}
+	#wrapper { width: 80%; margin-left: auto; margin-right: auto; background-color: white;}
+	
+</style>
+
+</head>
+<body>
+<div id="wrapper">
+	<header>
+		<h1 style="color:#cc0000; font-family: Arial, sans-serif; font-weight: bold; text-shadow: 5px 5px 5px #000000; font-size: 50px;"> Welcome to ByteForge </h1>
+	</header>
+<script>
+var todayIs=new Date();
+var myBday = new Date("January 1, 2025");
+var maSince = myBday.getTime() - todayIs.getTime();
+var daysLeft = Math.floor(maSince / (1000 * 60 * 60 * 24));
+document.write('<h3 style="color:#cc0000; font-family: Arial, sans-serif; font-weight: bold; text-shadow: 5px 5px 5px #000000; font-size: 25px;">There are ' + daysLeft + ' days left until New Year!</h3>');
+</script>
+		<nav>
+			<ul>
+				<li><b><a href="index.html">Home</a></li>	&nbsp;
+				<li><a href="resources.html">Links</a></li>	&nbsp;
+				<li><a href="gallery.html">Images</a></li>	&nbsp;
+				<li><a href="customerform.html">Behind the Scenes</a></li>	&nbsp;
+				<li><a href="staffdirectory.html">Contact Us</a></li>	&nbsp;
+
+				</b>
+			<ul>
+		</nav>
+	<main>
+	<h2  style="color:#cc0000; font-family: Arial, sans-serif;"> Our Staff </h2>
+	<table>
+			<tr>
+				<th id="name">First Name</th>
+				<th id="last">Last Name</th>
+				<th id="email">Email</th>
+				<th id="phone">Phone</th>
+			</tr>
+
+		<tr>
+			<td headers="name1">Cameron</td>
+			<td headers="last1">Mason</td>
+			<td headers="email1"><a href="cmason@yahoo.com">cmason@yahoo.com</a></td>
+			<td headers="phone1">(940)123-4567</td>
+		</tr>
+		<tr>
+			<td headers="name2">Bob</td>
+			<td headers="last2">Will</td>
+			<td headers="email1"><a href="bwill@yahoo.com">bwill@yahoo.com</a></td>
+			<td headers="phone1">(940)890-1234</td>
+
+		</tr>
+		<tr>
+			<td headers="name1">Charlie</td>
+			<td headers="last2">Fruit</td>
+			<td headers="email1"><a href="cfruit@yahoo.com">cfruit@yahoo.com</a></td>
+			<td headers="phone1">(940)567-8901</td>
+
+		</tr>
+
+</table>
+<br><br><br><br><br><br>
+	</main>
+<footer>
+
+		<h3 style="color:#cc0000; font-family: Arial, sans-serif;"> Contact ByteForge anytime </h3>
+			<h5><p><strong><i style="color:#cc0000; font-family: Arial, sans-serif;">&copy; 2024 Cameron Mason ByteForge Inc.
+			For more information, contact us at </i><a href="contact@ByteForgellc.com">contact@ByteForge.com</a></strong></p></h5>
+<lastmod<h5 style="color:#cc0000; font-family: Arial, sans-serif;">Last Modified 12/1/2024 17:56:32</h5></lastmod>
+	</footer>
+</div>
+</body>
+</html>
+
+body {background-image: url('headphone.jpg'); background-size: 200px auto; background-repeat: repeat-x; padding: 15px;}
+
+nav a:hover { color: #FFFFFF; background-color: #FF0000; }
+
+e img {position: relative; left: 450px; bottom: 0;}
+f img {position: relative;left: 0; bottom: 0;}
+g img {position: relative;left: 450px; bottom: 0;}
+h img {position: relative;left: 0; bottom: 0;}
+j img {position: relative;left: 450px; bottom: 0;}
+
+body {background-color: #cccccc;}
+
+table tr:nth-of-type(even){background-color: #ffffff;}
+table tr:nth-of-type(odd){background-color: #f5f5f5;}
+
+
