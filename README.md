@@ -52,7 +52,7 @@ My journey in computer science has led me to develop a passion for cybersecurity
 
 This is my HTML project hosted with GitHub Pages.  
 
-👉 [Click here to view the live site](https://cammaso.github.io/Cameron-Mason/)
+👉 [Click here to view the live site]([https://cammaso.github.io/Cameron-Mason/](https://cammaso.github.io/my-website/))
 
 ## Projects
 - Detection Lab
