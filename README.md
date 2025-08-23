@@ -48,6 +48,12 @@ My journey in computer science has led me to develop a passion for cybersecurity
 <img src="https://img.shields.io/badge/-CCD-000080?&style=for-the-badge&logoColor=white" />
 </div>
 
+# My Website
+
+This is my HTML project hosted with GitHub Pages.  
+
+👉 [Click here to view the live site](https://cammaso.github.io/my-website/)
+
 ## Projects
 - Detection Lab
 - SOC Automation Project
