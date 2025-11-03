@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="stylesheet" type="text/css" href="style.css">
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<title>ByteForge</title>
+<meta charset="utf-8">
+
+<style>
+	nav {float: left; width: 90px;}
+	nav ul { list-style-image: url('game.png'); padding-left:60px;}
+	main {margin-left: 150px;background-color: #fff0f0;}
+	footer {margin-left: 150px;background-color: #000000;}
+	body { font-family: Georgia, Arial, sans-serif:}
+	#wrapper { width: 80%; margin-left: auto; margin-right: auto; background-color: white;}
+	
+</style>
+
+</head>
+<body>
+<div id="wrapper">
+	<header>
+		<h1 style="color:#cc0000; font-family: Arial, sans-serif; font-weight: bold; text-shadow: 5px 5px 5px #000000; font-size: 50px;"> Welcome to ByteForge </h1>
+	</header>
+<script>
+var todayIs=new Date();
+var myBday = new Date("January 1, 2025");
+var maSince = myBday.getTime() - todayIs.getTime();
+var daysLeft = Math.floor(maSince / (1000 * 60 * 60 * 24));
+document.write('<h3 style="color:#cc0000; font-family: Arial, sans-serif; font-weight: bold; text-shadow: 5px 5px 5px #000000; font-size: 25px;">There are ' + daysLeft + ' days left until New Year!</h3>');
+</script>
+		<nav>
+			<ul>
+				<li><b><a href="index.html">Home</a></li>	&nbsp;
+				<li><a href="resources.html">Links</a></li>	&nbsp;
+				<li><a href="gallery.html">Images</a></li>	&nbsp;
+				<li><a href="customerform.html">Behind the Scenes</a></li>	&nbsp;
+				<li><a href="staffdirectory.html">Contact Us</a></li>	&nbsp;
+
+				</b>
+			<ul>
+		</nav>
+	<main>
+	<h2  style="color:#cc0000; font-family: Arial, sans-serif;"> Our Staff </h2>
+	<table>
+			<tr>
+				<th id="name">First Name</th>
+				<th id="last">Last Name</th>
+				<th id="email">Email</th>
+				<th id="phone">Phone</th>
+			</tr>
+
+		<tr>
+			<td headers="name1">Cameron</td>
+			<td headers="last1">Mason</td>
+			<td headers="email1"><a href="cmason@yahoo.com">cmason@yahoo.com</a></td>
+			<td headers="phone1">(940)123-4567</td>
+		</tr>
+		<tr>
+			<td headers="name2">Bob</td>
+			<td headers="last2">Will</td>
+			<td headers="email1"><a href="bwill@yahoo.com">bwill@yahoo.com</a></td>
+			<td headers="phone1">(940)890-1234</td>
+
+		</tr>
+		<tr>
+			<td headers="name1">Charlie</td>
+			<td headers="last2">Fruit</td>
+			<td headers="email1"><a href="cfruit@yahoo.com">cfruit@yahoo.com</a></td>
+			<td headers="phone1">(940)567-8901</td>
+
+		</tr>
+
+</table>
+<br><br><br><br><br><br>
+	</main>
+<footer>
+
+		<h3 style="color:#cc0000; font-family: Arial, sans-serif;"> Contact ByteForge anytime </h3>
+			<h5><p><strong><i style="color:#cc0000; font-family: Arial, sans-serif;">&copy; 2024 Cameron Mason ByteForge Inc.
+			For more information, contact us at </i><a href="contact@ByteForgellc.com">contact@ByteForge.com</a></strong></p></h5>
+<lastmod<h5 style="color:#cc0000; font-family: Arial, sans-serif;">Last Modified 12/1/2024 17:56:32</h5></lastmod>
+	</footer>
+</div>
+</body>
+</html>
