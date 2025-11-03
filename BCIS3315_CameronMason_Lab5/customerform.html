@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="stylesheet" type="text/css" href="style.css">
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<title>ByteForge</title>
+<meta charset="utf-8">
+
+<style>
+	nav {float: left; width: 90px;}
+	nav ul { list-style-image: url('game.png'); padding-left:60px;}
+	main {margin-left: 150px;background-color: #fff0f0;}
+	footer {margin-left: 150px;background-color: #000000;}
+	body { font-family: Georgia, Arial, sans-serif:}
+	#wrapper { width: 80%; margin-left: auto; margin-right: auto; background-color: white;}
+	0
+</style>
+
+</head>
+<body>
+<div id="wrapper">
+	<header>
+		<h1 style="color:#cc0000; font-family: Arial, sans-serif; font-weight: bold; text-shadow: 5px 5px 5px #000000; font-size: 50px;"> Welcome to ByteForge </h1>
+	</header>
+<script>
+var todayIs=new Date();
+var myBday = new Date("January 1, 2025");
+var maSince = myBday.getTime() - todayIs.getTime();
+var daysLeft = Math.floor(maSince / (1000 * 60 * 60 * 24));
+document.write('<h3 style="color:#cc0000; font-family: Arial, sans-serif; font-weight: bold; text-shadow: 5px 5px 5px #000000; font-size: 25px;">There are ' + daysLeft + ' days left until New Year!</h3>');
+</script>
+		<nav>
+			<ul>
+				<li><b><a href="index.html">Home</a></li>	&nbsp;
+				<li><a href="resources.html">Links</a></li>	&nbsp;
+				<li><a href="gallery.html">Images</a></li>	&nbsp;
+				<li><a href="customerform.html">Behind the Scenes</a></li>	&nbsp;
+				<li><a href="staffdirectory.html">Contact Us</a></li>	&nbsp;
+
+				</b>
+			<ul>
+		</nav>
+	<main>
+		<h3  style="color:#cc0000; font-family: Arial, sans-serif;">Visit us and get expert knowledge on our supplies</h2>
+<form method="post"action="mailto:cmason@go.tarleton.edu">
+	
+	<div>
+		<label for="myName">First Name:</label>
+		<input type="text" name="myName" id="myName" required="required" placeholder="first name"
+	</div>
+<br><br>
+	<div>
+		<label for="myName">Last Name:</label>
+		<input type="text" name="myName" id="myName" required="required" placeholder="Last name"
+	</div>
+<br><br>
+	<div>
+		<label for="Phone">Phone:</label>
+		<input type="tel" name="Phone" id="Phone" required="required" placeholder="Phone Number"
+	</div>
+<br><br>
+	<div>
+		<label for="myEmail">E-mail:</label>
+		<input type="email" name="myEmail" id="myEmail" required="required" placeholder="you@yourdomain.com">
+	</div>
+		<h4> Select what you're interested in seeing</h4>
+
+	<div>
+	<select size="1" name="part" id="part">
+		<option>Select your part</option>
+		<option value="cpu">CPU</option>
+		<option value="gpu">GPU</option>
+		<option value="ram">RAM</option>
+	</select>
+	</div>
+        <h4>Select a Date to Visit:</h4>
+		<input type="radio" name="date" value="December 20, 2022">December 20, 2024
+           	<input type="radio" name="date" value="December 21, 2022">December 21, 2024
+          	<input type="radio" name="date" value="December 22, 2022">December 22, 2024
+	<div>
+
+		<h4>I would like for your company to also sale (check all that apply):</h4>
+		<input type="checkbox" name="laptops" id="laptops" value="yes">Laptops
+		<input type="checkbox" name="speakers" id="laptops" value="yes">Speakers
+		<input type="checkbox" name="cameras" id="laptops" value="yes">Cameras
+	</div>
+
+<div>
+<br>
+<h4>Please comment below to let us know if you will be bringing any supplies for us to look at on your visit.</hh4><br><br>
+<textarea name="comments" id="comments" cols="40" rows="6"></textarea>
+</div>
+<input id="mySubmit" type="submit" value="Sumbit">
+<input id="myReset" type="reset" value="Reset">
+</form>
+
+</main>
+<footer>
+<lastmod<h5 style="color:#cc0000; font-family: Arial, sans-serif;">Last Modified 12/1/2024 17:56:32</h5></lastmod>
+</footer>
+
+
+

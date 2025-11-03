@@ -1,0 +1,15 @@
+body {background-image: url('headphone.jpg'); background-size: 200px auto; background-repeat: repeat-x; padding: 15px;}
+
+nav a:hover { color: #FFFFFF; background-color: #FF0000; }
+
+e img {position: relative; left: 450px; bottom: 0;}
+f img {position: relative;left: 0; bottom: 0;}
+g img {position: relative;left: 450px; bottom: 0;}
+h img {position: relative;left: 0; bottom: 0;}
+j img {position: relative;left: 450px; bottom: 0;}
+
+body {background-color: #cccccc;}
+
+table tr:nth-of-type(even){background-color: #ffffff;}
+table tr:nth-of-type(odd){background-color: #f5f5f5;}
+
