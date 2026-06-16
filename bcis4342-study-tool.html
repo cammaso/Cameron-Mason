@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>BCIS 4342 — Ethical Hacking Study Tool</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Inter:wght@300;400;500;600&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0d12;
+    --surface: #111620;
+    --surface2: #181e2a;
+    --surface3: #1f2738;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.12);
+    --text: #e8eaf0;
+    --muted: #7a8299;
+    --dim: #4a5068;
+    --accent: #00d4a0;
+    --accent-dim: rgba(0,212,160,0.12);
+    --accent-dim2: rgba(0,212,160,0.06);
+    --red: #ff5e5e;
+    --red-dim: rgba(255,94,94,0.12);
+    --amber: #ffb347;
+    --amber-dim: rgba(255,179,71,0.12);
+    --blue: #5b9cf6;
+    --blue-dim: rgba(91,156,246,0.12);
+    --purple: #a78bfa;
+    --purple-dim: rgba(167,139,250,0.12);
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Inter', sans-serif;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(10,13,18,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex; align-items: center; gap: 0;
+  }
+  .nav-brand {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--accent);
+    font-weight: 500;
+    padding: 1rem 1.5rem 1rem 0;
+    border-right: 1px solid var(--border);
+    margin-right: 1.5rem;
+    white-space: nowrap;
+    letter-spacing: 0.02em;
+  }
+  .nav-tabs { display: flex; gap: 0; overflow-x: auto; }
+  .nav-tab {
+    font-size: 13px; font-weight: 400;
+    color: var(--muted);
+    padding: 0 1.1rem;
+    height: 52px;
+    display: flex; align-items: center;
+    cursor: pointer;
+    border: none; background: none;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    transition: color 0.15s, border-color 0.15s;
+    font-family: var(--sans);
+  }
+  .nav-tab:hover { color: var(--text); }
+  .nav-tab.active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 500; }
+
+  /* LAYOUT */
+  .page { display: none; max-width: 900px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+  .page.active { display: block; }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, var(--surface) 0%, var(--surface2) 100%);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 2rem 2.5rem;
+    margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: 0; right: 0;
+    width: 300px; height: 200px;
+    background: radial-gradient(ellipse at top right, rgba(0,212,160,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-label { font-family: var(--mono); font-size: 11px; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; }
+  .hero h1 { font-size: 26px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+  .hero p { font-size: 14px; color: var(--muted); max-width: 520px; }
+
+  /* SECTION HEADERS */
+  .section-label {
+    font-family: var(--mono); font-size: 11px; color: var(--accent);
+    letter-spacing: 0.1em; text-transform: uppercase;
+    margin-bottom: 1rem;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  /* CARDS */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1rem;
+  }
+  .card-title { font-size: 13px; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; }
+
+  /* GRID */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+  @media(max-width: 600px) { .grid-2 { grid-template-columns: 1fr; } }
+
+  /* BADGES */
+  .badge { display: inline-flex; align-items: center; font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 20px; }
+  .badge-red { background: var(--red-dim); color: var(--red); }
+  .badge-amber { background: var(--amber-dim); color: var(--amber); }
+  .badge-green { background: rgba(0,212,160,0.12); color: var(--accent); }
+  .badge-blue { background: var(--blue-dim); color: var(--blue); }
+  .badge-purple { background: var(--purple-dim); color: var(--purple); }
+
+  /* PORT SCANNER */
+  .search-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+  .search-row input {
+    flex: 1; min-width: 140px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 9px 14px;
+    color: var(--text);
+    font-family: var(--sans); font-size: 14px;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .search-row input:focus { border-color: var(--accent); }
+  .search-row input::placeholder { color: var(--dim); }
+  .btn {
+    background: var(--accent);
+    color: #0a0d12;
+    border: none;
+    border-radius: 8px;
+    padding: 9px 18px;
+    font-size: 13px; font-weight: 600;
+    cursor: pointer;
+    font-family: var(--sans);
+    white-space: nowrap;
+    transition: opacity 0.15s;
+  }
+  .btn:hover { opacity: 0.85; }
+  .btn-ghost {
+    background: transparent;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 13px; font-weight: 500;
+    cursor: pointer;
+    font-family: var(--sans);
+    white-space: nowrap;
+    transition: background 0.15s;
+  }
+  .btn-ghost:hover { background: var(--accent-dim); }
+
+  .quick-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 1.5rem; align-items: center; }
+  .quick-label { font-size: 11px; color: var(--dim); font-family: var(--mono); }
+  .pill {
+    font-size: 11px; font-family: var(--mono);
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 4px 10px;
+    cursor: pointer;
+    color: var(--muted);
+    transition: border-color 0.15s, color 0.15s;
+  }
+  .pill:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* PORT RESULT */
+  .port-header {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.25rem 1.5rem;
+    display: flex; align-items: center; gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+  }
+  .port-num {
+    font-family: var(--mono); font-size: 24px; font-weight: 500;
+    color: var(--accent);
+    background: var(--accent-dim2);
+    border: 1px solid rgba(0,212,160,0.2);
+    border-radius: 8px;
+    padding: 8px 14px;
+    min-width: 70px; text-align: center;
+  }
+
+  /* CODE */
+  code, .mono {
+    font-family: var(--mono);
+    font-size: 12px;
+    background: var(--surface2);
+    padding: 3px 7px;
+    border-radius: 4px;
+    color: var(--accent);
+  }
+  .code-block {
+    font-family: var(--mono); font-size: 12px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 12px;
+    color: var(--accent);
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  /* TOOL PILLS */
+  .tool-pill {
+    font-size: 11px; font-family: var(--mono);
+    background: var(--surface3);
+    border: 1px solid var(--border2);
+    border-radius: 20px;
+    padding: 4px 10px;
+    color: var(--muted);
+  }
+
+  /* EXAM TIP */
+  .exam-tip {
+    background: rgba(167,139,250,0.07);
+    border: 1px solid rgba(167,139,250,0.2);
+    border-left: 3px solid var(--purple);
+    border-radius: 0 8px 8px 0;
+    padding: 12px 16px;
+    font-size: 13px; color: var(--text); line-height: 1.6;
+    margin-top: 12px;
+  }
+  .exam-tip-label { font-size: 10px; font-family: var(--mono); color: var(--purple); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px; }
+
+  /* LAYER ITEMS */
+  .layer-item {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+    margin-bottom: 8px;
+  }
+  .layer-item:hover { border-color: var(--border2); background: var(--surface2); }
+
+  /* HANDSHAKE STEPS */
+  .hs-step {
+    display: flex; gap: 14px;
+    padding: 14px 16px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    margin-bottom: 10px;
+    align-items: flex-start;
+  }
+  .hs-num {
+    font-family: var(--mono); font-size: 11px; font-weight: 500;
+    min-width: 28px; height: 28px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  /* ATTACK ITEMS */
+  .attack-item {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    background: var(--surface);
+    transition: border-color 0.15s;
+    margin-bottom: 8px;
+  }
+  .attack-item:hover { border-color: var(--border2); }
+
+  /* MODULE CARDS */
+  .module-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 12px;
+    cursor: pointer;
+    transition: border-color 0.15s;
+  }
+  .module-card:hover { border-color: var(--border2); }
+  .module-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+  .module-card-body { font-size: 13px; color: var(--muted); line-height: 1.6; display: none; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border); }
+  .module-card-body.open { display: block; }
+
+  /* FOOTPRINT TOOLS */
+  .recon-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; margin-bottom: 1rem; }
+  .recon-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+  }
+  .recon-card-name { font-family: var(--mono); font-size: 13px; font-weight: 500; color: var(--accent); margin-bottom: 4px; }
+  .recon-card-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+  /* ERROR */
+  .error-msg {
+    background: var(--red-dim);
+    border: 1px solid rgba(255,94,94,0.3);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 13px; color: var(--red);
+    display: none; margin-bottom: 1rem;
+  }
+
+  hr.divider { border: none; border-top: 1px solid var(--border); margin: 1.5rem 0; }
+
+  ul.def-list { padding-left: 1.25rem; }
+  ul.def-list li { font-size: 14px; color: var(--text); line-height: 1.9; }
+
+  .detail-panel {
+    background: var(--surface2);
+    border: 1px solid var(--border2);
+    border-radius: 10px;
+    padding: 1.25rem 1.5rem;
+    margin-top: 12px;
+    display: none;
+  }
+  .detail-panel.open { display: block; }
+
+  .flex-wrap { display: flex; flex-wrap: wrap; gap: 6px; }
+
+  /* Sub tabs */
+  .subtabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 1.5rem; }
+  .subtab {
+    font-size: 12px; font-family: var(--mono);
+    padding: 6px 14px; border-radius: 20px;
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: var(--sans);
+  }
+  .subtab.active { background: var(--accent); color: #0a0d12; border-color: var(--accent); font-weight: 600; }
+  .subtab:hover:not(.active) { border-color: var(--border2); color: var(--text); }
+
+  .subpane { display: none; }
+  .subpane.active { display: block; }
+
+  /* FLAG GRID */
+  .flag-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; margin-bottom: 1rem; }
+  .flag-card { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; }
+
+  /* Nmap ref table */
+  .nmap-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .nmap-table th { text-align: left; font-size: 11px; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; padding: 6px 10px; border-bottom: 1px solid var(--border); }
+  .nmap-table td { padding: 8px 10px; border-bottom: 1px solid var(--border); color: var(--text); vertical-align: top; }
+  .nmap-table td:first-child { font-family: var(--mono); font-size: 12px; color: var(--accent); white-space: nowrap; }
+  .nmap-table tr:last-child td { border-bottom: none; }
+
+  /* Social eng cards */
+  .se-card { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; margin-bottom: 10px; }
+  .se-card-title { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 4px; }
+  .se-card-desc { font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 8px; }
+
+  /* Malware cards */
+  .malware-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; margin-bottom: 1rem; }
+  .malware-card { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; }
+  .malware-name { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 2px; }
+  .malware-type { font-size: 11px; font-family: var(--mono); color: var(--red); margin-bottom: 6px; }
+  .malware-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand">$ BCIS4342</div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showPage('ports')">Port Scanner</button>
+    <button class="nav-tab" onclick="showPage('tcpip')">TCP/IP</button>
+    <button class="nav-tab" onclick="showPage('attacks')">Attacks</button>
+    <button class="nav-tab" onclick="showPage('footprint')">Footprinting</button>
+    <button class="nav-tab" onclick="showPage('social')">Social Eng</button>
+    <button class="nav-tab" onclick="showPage('nmap')">Nmap Ref</button>
+  </div>
+</nav>
+
+<!-- ===== PORT SCANNER ===== -->
+<div id="page-ports" class="page active">
+  <div class="hero">
+    <div class="hero-label">Module 5 — Port Scanning</div>
+    <h1>Port & Service Recon</h1>
+    <p>Look up any port or service — get attack surface analysis, Nmap commands, tools, and exam tips for BCIS 4342.</p>
+  </div>
+
+  <div class="search-row">
+    <input type="number" id="portInput" placeholder="Port number (e.g. 443)" min="0" max="65535" oninput="hidePortError()" />
+    <input type="text" id="serviceInput" placeholder="Or service name (e.g. SSH, RDP)" oninput="hidePortError()" onkeydown="if(event.key==='Enter')analyzePort()" />
+    <button class="btn" onclick="analyzePort()">Analyze →</button>
+  </div>
+  <div class="quick-pills">
+    <span class="quick-label">quick pick:</span>
+    <span class="pill" onclick="quickPick(21,'FTP')">21 FTP</span>
+    <span class="pill" onclick="quickPick(22,'SSH')">22 SSH</span>
+    <span class="pill" onclick="quickPick(23,'Telnet')">23 Telnet</span>
+    <span class="pill" onclick="quickPick(25,'SMTP')">25 SMTP</span>
+    <span class="pill" onclick="quickPick(53,'DNS')">53 DNS</span>
+    <span class="pill" onclick="quickPick(80,'HTTP')">80 HTTP</span>
+    <span class="pill" onclick="quickPick(443,'HTTPS')">443 HTTPS</span>
+    <span class="pill" onclick="quickPick(445,'SMB')">445 SMB</span>
+    <span class="pill" onclick="quickPick(1433,'MSSQL')">1433 MSSQL</span>
+    <span class="pill" onclick="quickPick(3389,'RDP')">3389 RDP</span>
+  </div>
+
+  <div class="error-msg" id="portError"></div>
+
+  <div id="portResult" style="display:none;">
+    <div class="port-header">
+      <div class="port-num" id="pNum"></div>
+      <div style="flex:1; min-width:120px;">
+        <div style="font-size:18px; font-weight:600; color:var(--text);" id="pService"></div>
+        <div style="font-size:13px; color:var(--muted); margin-top:2px;" id="pProto"></div>
+      </div>
+      <div id="pRisk"></div>
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">What it does</div>
+        <div style="font-size:14px; color:var(--text); line-height:1.7;" id="pWhat"></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Attacker interest</div>
+        <div style="font-size:14px; color:var(--text); line-height:1.7;" id="pAttack"></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Defensive recommendations</div>
+      <ul class="def-list" id="pDefense"></ul>
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">Nmap commands</div>
+        <div id="pNmap"></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Attack tools</div>
+        <div class="flex-wrap" id="pTools"></div>
+      </div>
+    </div>
+    <div class="exam-tip">
+      <div class="exam-tip-label">Exam tip — BCIS 4342</div>
+      <div id="pExam"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== TCP/IP ===== -->
+<div id="page-tcpip" class="page">
+  <div class="hero">
+    <div class="hero-label">Module 2 — TCP/IP Concepts</div>
+    <h1>TCP/IP Reference</h1>
+    <p>Layers, three-way handshake, TCP flags, and protocol stack — everything on the Module 2 quiz.</p>
+  </div>
+
+  <div class="subtabs">
+    <button class="subtab active" onclick="switchSub('tcpip','layers')">TCP/IP Layers</button>
+    <button class="subtab" onclick="switchSub('tcpip','handshake')">3-Way Handshake</button>
+    <button class="subtab" onclick="switchSub('tcpip','flags')">TCP Flags</button>
+    <button class="subtab" onclick="switchSub('tcpip','proto')">Key Protocols</button>
+  </div>
+
+  <!-- LAYERS -->
+  <div id="tcpip-layers" class="subpane active">
+    <div class="section-label">TCP/IP model (4 layers)</div>
+    <div id="layerList"></div>
+    <div class="detail-panel" id="layerDetail">
+      <div style="font-size:16px; font-weight:600; color:var(--text); margin-bottom:6px;" id="ldTitle"></div>
+      <div style="font-size:14px; color:var(--text); line-height:1.7; margin-bottom:14px;" id="ldDesc"></div>
+      <div class="card-title">Protocols</div>
+      <div class="flex-wrap" style="margin-bottom:14px;" id="ldProtos"></div>
+      <div class="exam-tip">
+        <div class="exam-tip-label">Exam tip</div>
+        <div id="ldExam"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HANDSHAKE -->
+  <div id="tcpip-handshake" class="subpane">
+    <div class="section-label">TCP three-way handshake</div>
+    <div id="hsSteps"></div>
+    <div class="card" style="margin-top:1rem;">
+      <div class="card-title">Nmap scan types &amp; handshake behavior</div>
+      <table class="nmap-table">
+        <tr><th>Flag</th><th>Scan Type</th><th>Behavior</th></tr>
+        <tr><td>-sS</td><td>SYN / Stealth</td><td>Sends SYN, gets SYN-ACK, sends RST. Never completes handshake. Less likely to be logged.</td></tr>
+        <tr><td>-sT</td><td>TCP Connect</td><td>Completes full 3-way handshake. Logged by OS. Used when raw sockets unavailable.</td></tr>
+        <tr><td>-sU</td><td>UDP</td><td>No handshake. Sends UDP probes; closed ports return ICMP unreachable.</td></tr>
+        <tr><td>-sF</td><td>FIN</td><td>Sends FIN only. Closed ports reply RST; open ports ignore. Evades some stateless firewalls.</td></tr>
+        <tr><td>-sX</td><td>Xmas</td><td>Sets FIN+PSH+URG. Lights up the header "like a Christmas tree." Same logic as FIN scan.</td></tr>
+        <tr><td>-sN</td><td>Null</td><td>Sends no flags. Closed ports respond RST; open ports ignore.</td></tr>
+        <tr><td>-sA</td><td>ACK</td><td>Maps firewall rules — tells you which ports are filtered vs unfiltered.</td></tr>
+      </table>
+    </div>
+    <div class="exam-tip">
+      <div class="exam-tip-label">Exam tip</div>
+      SYN scan (-sS) is the default Nmap scan and most commonly tested. Know why it's "stealthy" — it never completes the handshake so many older IDS systems don't log it. A SYN flood DoS attack exploits this same mechanism at massive scale.
+    </div>
+  </div>
+
+  <!-- FLAGS -->
+  <div id="tcpip-flags" class="subpane">
+    <div class="section-label">TCP header flags</div>
+    <div class="flag-grid" id="flagGrid"></div>
+    <div class="card">
+      <div class="card-title">Flag → Nmap scan mapping</div>
+      <table class="nmap-table">
+        <tr><th>Flag(s) sent</th><th>Nmap switch</th><th>Use case</th></tr>
+        <tr><td>SYN</td><td>-sS</td><td>Default stealth scan</td></tr>
+        <tr><td>FIN</td><td>-sF</td><td>Firewall evasion</td></tr>
+        <tr><td>FIN + PSH + URG</td><td>-sX</td><td>Xmas scan — firewall evasion</td></tr>
+        <tr><td>(none)</td><td>-sN</td><td>Null scan — firewall evasion</td></tr>
+        <tr><td>ACK</td><td>-sA</td><td>Firewall ruleset mapping</td></tr>
+        <tr><td>SYN + ACK</td><td>(response)</td><td>Open port confirmation from server</td></tr>
+        <tr><td>RST</td><td>(response)</td><td>Closed port from server</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- PROTOCOLS -->
+  <div id="tcpip-proto" class="subpane">
+    <div class="section-label">Key protocols by layer</div>
+    <div id="protoList"></div>
+  </div>
+</div>
+
+<!-- ===== ATTACKS ===== -->
+<div id="page-attacks" class="page">
+  <div class="hero">
+    <div class="hero-label">Module 3 — Network &amp; Computer Attacks</div>
+    <h1>Attack Reference</h1>
+    <p>System hacking, malware, DoS, and sniffing attacks — tied to your Module 3 VM labs.</p>
+  </div>
+  <div class="subtabs">
+    <button class="subtab active" onclick="switchSub('attacks','tcpattacks')">TCP/IP Attacks</button>
+    <button class="subtab" onclick="switchSub('attacks','malware')">Malware Types</button>
+    <button class="subtab" onclick="switchSub('attacks','dos')">DoS / DDoS</button>
+    <button class="subtab" onclick="switchSub('attacks','sysattacks')">System Hacking</button>
+  </div>
+
+  <div id="attacks-tcpattacks" class="subpane active">
+    <div class="section-label">TCP/IP network attacks</div>
+    <div id="tcpAttackList"></div>
+    <div class="detail-panel" id="tcpAttackDetail">
+      <div style="font-size:16px; font-weight:600; color:var(--text); margin-bottom:6px;" id="taTitle"></div>
+      <div style="font-size:11px; font-family:var(--mono); margin-bottom:10px;" id="taLayer"></div>
+      <div style="font-size:14px; color:var(--text); line-height:1.7; margin-bottom:14px;" id="taHow"></div>
+      <div class="card-title">Defenses</div>
+      <ul class="def-list" style="margin-bottom:14px;" id="taDefense"></ul>
+      <div class="exam-tip"><div class="exam-tip-label">Exam tip</div><div id="taExam"></div></div>
+    </div>
+  </div>
+
+  <div id="attacks-malware" class="subpane">
+    <div class="section-label">Malware types — Module 3 lab 3-2</div>
+    <div class="malware-grid" id="malwareGrid"></div>
+  </div>
+
+  <div id="attacks-dos" class="subpane">
+    <div class="section-label">DoS / DDoS attacks — Module 3 lab 3-4</div>
+    <div id="dosList"></div>
+    <div class="detail-panel" id="dosDetail">
+      <div style="font-size:16px; font-weight:600; color:var(--text); margin-bottom:6px;" id="dosTitle"></div>
+      <div style="font-size:14px; color:var(--text); line-height:1.7; margin-bottom:14px;" id="dosHow"></div>
+      <div class="card-title">Defenses</div>
+      <ul class="def-list" style="margin-bottom:14px;" id="dosDefense"></ul>
+      <div class="exam-tip"><div class="exam-tip-label">Exam tip</div><div id="dosExam"></div></div>
+    </div>
+  </div>
+
+  <div id="attacks-sysattacks" class="subpane">
+    <div class="section-label">System hacking phases — Module 3 lab 3-1</div>
+    <div id="sysHackList"></div>
+  </div>
+</div>
+
+<!-- ===== FOOTPRINTING ===== -->
+<div id="page-footprint" class="page">
+  <div class="hero">
+    <div class="hero-label">Module 4 — Footprinting &amp; Reconnaissance</div>
+    <h1>Footprinting &amp; Recon</h1>
+    <p>OSINT techniques, recon tools, DNS enumeration, and passive vs active reconnaissance.</p>
+  </div>
+
+  <div class="section-label">Passive vs Active Recon</div>
+  <div class="grid-2" style="margin-bottom:1.5rem;">
+    <div class="card">
+      <div class="card-title" style="color:var(--accent);">Passive recon</div>
+      <div style="font-size:14px; color:var(--text); line-height:1.7;">Gathering information without directly interacting with the target. Target never knows you're looking. Uses public records, OSINT, search engines, WHOIS, DNS lookups, social media.</div>
+      <div style="margin-top:10px;" class="flex-wrap">
+        <span class="tool-pill">Google Dorks</span>
+        <span class="tool-pill">WHOIS</span>
+        <span class="tool-pill">Shodan</span>
+        <span class="tool-pill">LinkedIn</span>
+        <span class="tool-pill">Maltego</span>
+        <span class="tool-pill">theHarvester</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title" style="color:var(--amber);">Active recon</div>
+      <div style="font-size:14px; color:var(--text); line-height:1.7;">Directly interacting with target systems to gather data. Target may detect or log the activity. Includes port scanning, OS fingerprinting, ping sweeps, DNS zone transfers.</div>
+      <div style="margin-top:10px;" class="flex-wrap">
+        <span class="tool-pill">Nmap</span>
+        <span class="tool-pill">dig / nslookup</span>
+        <span class="tool-pill">Netcraft</span>
+        <span class="tool-pill">Traceroute</span>
+        <span class="tool-pill">fierce</span>
+        <span class="tool-pill">dnsrecon</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label">OSINT / Recon tools</div>
+  <div class="recon-grid" id="reconGrid"></div>
+
+  <div class="section-label">DNS enumeration techniques</div>
+  <div class="card">
+    <table class="nmap-table">
+      <tr><th>Technique</th><th>Command</th><th>What it reveals</th></tr>
+      <tr><td>Zone transfer</td><td>dig axfr @&lt;ns&gt; &lt;domain&gt;</td><td>All DNS records if misconfigured — goldmine</td></tr>
+      <tr><td>NS lookup</td><td>nslookup -type=NS domain</td><td>Name servers for the domain</td></tr>
+      <tr><td>MX records</td><td>nslookup -type=MX domain</td><td>Mail servers — targets for SMTP attacks</td></tr>
+      <tr><td>Reverse DNS</td><td>nslookup &lt;ip&gt;</td><td>Hostname from IP — maps network</td></tr>
+      <tr><td>Subdomain brute</td><td>dnsrecon -d domain -t brt</td><td>Hidden subdomains (dev, staging, admin)</td></tr>
+      <tr><td>Whois</td><td>whois domain</td><td>Registrar, contacts, name servers, dates</td></tr>
+    </table>
+  </div>
+  <div class="exam-tip" style="margin-top:1rem;">
+    <div class="exam-tip-label">Exam tip — Module 4</div>
+    Zone transfer (AXFR) is the biggest DNS misconfiguration — if the nameserver allows it, you get every DNS record for the domain. Passive footprinting using Google Dorks (site:, filetype:, inurl:) is also heavily tested. Know: passive = no direct target contact, active = direct contact.
+  </div>
+
+  <div class="section-label" style="margin-top:1.5rem;">Google Dork operators</div>
+  <div class="card">
+    <table class="nmap-table">
+      <tr><th>Operator</th><th>Example</th><th>Finds</th></tr>
+      <tr><td>site:</td><td>site:target.com</td><td>All indexed pages for domain</td></tr>
+      <tr><td>filetype:</td><td>filetype:pdf site:target.com</td><td>PDFs, XLS, DOCX on the target</td></tr>
+      <tr><td>inurl:</td><td>inurl:admin site:target.com</td><td>Admin panels</td></tr>
+      <tr><td>intitle:</td><td>intitle:"index of"</td><td>Directory listings</td></tr>
+      <tr><td>cache:</td><td>cache:target.com</td><td>Cached version of a page</td></tr>
+      <tr><td>link:</td><td>link:target.com</td><td>Sites linking to target</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ===== SOCIAL ENGINEERING ===== -->
+<div id="page-social" class="page">
+  <div class="hero">
+    <div class="hero-label">Module 4 — Social Engineering</div>
+    <h1>Social Engineering</h1>
+    <p>Attack types, psychological principles, phishing techniques, and defenses. Lab 4-2 content.</p>
+  </div>
+
+  <div class="section-label">Social engineering attack types</div>
+  <div id="seList"></div>
+
+  <div class="section-label" style="margin-top:1.5rem;">Psychological principles exploited</div>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title" style="color:var(--red);">Authority</div>
+      <div style="font-size:13px;color:var(--text);line-height:1.6;">Impersonating IT, management, or law enforcement to make targets comply without questioning.</div>
+    </div>
+    <div class="card">
+      <div class="card-title" style="color:var(--amber);">Urgency / Scarcity</div>
+      <div style="font-size:13px;color:var(--text);line-height:1.6;">"Act now or your account will be suspended." Bypasses critical thinking by creating time pressure.</div>
+    </div>
+    <div class="card">
+      <div class="card-title" style="color:var(--blue);">Social proof</div>
+      <div style="font-size:13px;color:var(--text);line-height:1.6;">"Your colleagues have already updated their passwords." Normalizes the requested action.</div>
+    </div>
+    <div class="card">
+      <div class="card-title" style="color:var(--purple);">Reciprocity</div>
+      <div style="font-size:13px;color:var(--text);line-height:1.6;">Offering a small favor or gift first, then making a request. Creates obligation to comply.</div>
+    </div>
+    <div class="card">
+      <div class="card-title" style="color:var(--accent);">Liking / Trust</div>
+      <div style="font-size:13px;color:var(--text);line-height:1.6;">Building rapport before the ask. Attackers research targets on LinkedIn/social media first.</div>
+    </div>
+    <div class="card">
+      <div class="card-title" style="color:var(--muted);">Fear</div>
+      <div style="font-size:13px;color:var(--text);line-height:1.6;">"Your computer has a virus, call us now." Drives irrational decisions to eliminate perceived threat.</div>
+    </div>
+  </div>
+
+  <div class="section-label" style="margin-top:1.5rem;">Phishing subtypes</div>
+  <div id="phishList"></div>
+
+  <div class="section-label" style="margin-top:1.5rem;">Defenses against social engineering</div>
+  <div class="card">
+    <ul class="def-list">
+      <li>Security awareness training — the only reliable defense against human manipulation</li>
+      <li>Verify caller/sender identity via callback using a known, official number — not one provided by the caller</li>
+      <li>Strict procedures for password resets, data sharing, and physical access — never bypass for "urgency"</li>
+      <li>Email filtering, DMARC/SPF/DKIM to reduce spoofed phishing emails</li>
+      <li>Multi-factor authentication (MFA) — limits damage even if credentials are stolen</li>
+      <li>Shred sensitive documents — dumpster diving is a real physical recon technique</li>
+      <li>Tailgating controls — badge-only access, no piggybacking</li>
+    </ul>
+  </div>
+  <div class="exam-tip" style="margin-top:1rem;">
+    <div class="exam-tip-label">Exam tip — Module 4</div>
+    Know all phishing subtypes: phishing (mass), spear phishing (targeted), whaling (executives), vishing (voice), smishing (SMS), pharming (DNS redirect). Social engineering succeeds because it targets humans, not technology — the weakest link in any security chain.
+  </div>
+</div>
+
+<!-- ===== NMAP REFERENCE ===== -->
+<div id="page-nmap" class="page">
+  <div class="hero">
+    <div class="hero-label">Module 5 — Port Scanning</div>
+    <h1>Nmap Quick Reference</h1>
+    <p>Every Nmap flag and technique you need for the Chapter 5 lab and quiz.</p>
+  </div>
+
+  <div class="section-label">Scan types</div>
+  <div class="card" style="margin-bottom:1rem;">
+    <table class="nmap-table">
+      <tr><th>Switch</th><th>Name</th><th>Description</th></tr>
+      <tr><td>-sS</td><td>SYN / Stealth scan</td><td>Default. Half-open scan — sends SYN, resets after SYN-ACK. Stealthy, fast, requires root.</td></tr>
+      <tr><td>-sT</td><td>TCP connect scan</td><td>Full 3-way handshake. Logged. Used when -sS unavailable (no root).</td></tr>
+      <tr><td>-sU</td><td>UDP scan</td><td>Scans UDP ports. Slow. Important for DNS (53), SNMP (161), DHCP (67).</td></tr>
+      <tr><td>-sF</td><td>FIN scan</td><td>Sends FIN. Open ports ignore, closed send RST. Evades some firewalls.</td></tr>
+      <tr><td>-sX</td><td>Xmas scan</td><td>FIN+PSH+URG. Same logic as FIN scan.</td></tr>
+      <tr><td>-sN</td><td>Null scan</td><td>No flags. Open ignore, closed RST.</td></tr>
+      <tr><td>-sA</td><td>ACK scan</td><td>Maps firewall rules — filtered vs unfiltered (not open vs closed).</td></tr>
+      <tr><td>-sV</td><td>Version detection</td><td>Probes open ports to determine service/version running.</td></tr>
+      <tr><td>-sO</td><td>IP protocol scan</td><td>Determines which IP protocols target supports.</td></tr>
+      <tr><td>-sP / -sn</td><td>Ping sweep</td><td>Host discovery — finds live hosts without port scanning.</td></tr>
+    </table>
+  </div>
+
+  <div class="section-label">OS &amp; output flags</div>
+  <div class="card" style="margin-bottom:1rem;">
+    <table class="nmap-table">
+      <tr><th>Switch</th><th>Function</th></tr>
+      <tr><td>-O</td><td>OS detection — fingerprints the operating system</td></tr>
+      <tr><td>-A</td><td>Aggressive scan — enables -O, -sV, --traceroute, and script scanning (-sC)</td></tr>
+      <tr><td>-p 80</td><td>Scan specific port</td></tr>
+      <tr><td>-p 1-1024</td><td>Scan port range</td></tr>
+      <tr><td>-p-</td><td>Scan all 65535 ports</td></tr>
+      <tr><td>-T0 to -T5</td><td>Timing: T0=paranoid (IDS evasion), T3=default, T5=insane (fast, noisy)</td></tr>
+      <tr><td>-oN file</td><td>Normal output to file</td></tr>
+      <tr><td>-oX file</td><td>XML output</td></tr>
+      <tr><td>-oG file</td><td>Grepable output</td></tr>
+      <tr><td>-v / -vv</td><td>Verbosity</td></tr>
+      <tr><td>-D decoy1,decoy2</td><td>Decoy scan — hides real IP among decoys</td></tr>
+      <tr><td>--script &lt;name&gt;</td><td>Run NSE script (e.g. --script smb-vuln-ms17-010)</td></tr>
+    </table>
+  </div>
+
+  <div class="section-label">Port states</div>
+  <div class="card" style="margin-bottom:1rem;">
+    <table class="nmap-table">
+      <tr><th>State</th><th>Meaning</th><th>Response received</th></tr>
+      <tr><td>Open</td><td>Service is actively listening</td><td>SYN-ACK (TCP) or data (UDP)</td></tr>
+      <tr><td>Closed</td><td>No service listening, host reachable</td><td>RST packet</td></tr>
+      <tr><td>Filtered</td><td>Firewall blocking — can't determine state</td><td>No response or ICMP unreachable</td></tr>
+      <tr><td>Unfiltered</td><td>Reachable but can't determine open/closed</td><td>ACK scan result</td></tr>
+      <tr><td>Open|Filtered</td><td>Can't distinguish — no response</td><td>UDP/FIN/Xmas/Null scan result</td></tr>
+    </table>
+  </div>
+
+  <div class="section-label">Useful one-liners</div>
+  <div class="card">
+    <span class="code-block">nmap -sS -sV -O -p- -T4 &lt;target&gt;</span>
+    <span class="code-block">nmap --script vuln &lt;target&gt;</span>
+    <span class="code-block">nmap -sS -p 1-1024 --open &lt;target&gt;</span>
+    <span class="code-block">nmap -sU -p 53,161,67 &lt;target&gt;</span>
+    <span class="code-block">nmap -sS -D RND:10 &lt;target&gt;</span>
+    <span class="code-block">nmap -sP 192.168.1.0/24</span>
+  </div>
+
+  <div class="exam-tip" style="margin-top:1rem;">
+    <div class="exam-tip-label">Exam tip — Module 5</div>
+    The most tested Nmap concepts: -sS (SYN/stealth scan, default), -sT (TCP connect, logged), -sU (UDP, slow), -O (OS detection), -A (aggressive = everything). Know why SYN scan is "stealthy" and what each port state means. T0 = slowest/stealthiest, T5 = fastest/noisiest.
+  </div>
+</div>
+
+<script>
+const PORTS = {
+  21:{service:'FTP',protocol:'TCP',risk:'High',what:'File Transfer Protocol transfers files between client and server. Uses port 21 for commands and port 20 for data transfer. All credentials sent in plaintext.',attack:'Attackers target anonymous login, brute-force credentials, and plaintext sniffing. FTP bounce attacks allow port scanning through the server. Classic vuln: vsftpd 2.3.4 backdoor (Metasploit).',defense:['Disable anonymous FTP login','Replace with SFTP (port 22) or FTPS','Enforce strong passwords and account lockout','Firewall-restrict access to known IPs'],nmap:['nmap -p 21 <target>','nmap -sV -p 21 <target>','nmap --script ftp-anon -p 21 <target>'],tools:['Hydra','Metasploit','Wireshark','Ncrack'],exam:'FTP uses port 21 for control, port 20 for active-mode data. The vsftpd 2.3.4 backdoor is a classic Metasploit example. Anonymous FTP login is the first thing to check.'},
+  22:{service:'SSH',protocol:'TCP',risk:'Medium',what:'Secure Shell provides encrypted remote login and command execution, replacing Telnet. Uses asymmetric key exchange + symmetric session encryption.',attack:'Brute-force and credential stuffing are primary vectors. Weak passwords cracked with Hydra or Medusa. SSHv1 has known cryptographic weaknesses. Key misconfiguration allows unauthorized access.',defense:['Disable password auth — require SSH keys','Change port from 22 (security by obscurity)','Use fail2ban or rate limiting','Restrict via firewall to known source IPs'],nmap:['nmap -p 22 <target>','nmap -sV -p 22 <target>','nmap --script ssh-auth-methods -p 22 <target>'],tools:['Hydra','Medusa','Metasploit','ssh-audit'],exam:'SSH (port 22) replaces Telnet. SSHv1 = vulnerable, SSHv2 = current standard. Hydra syntax: hydra -l user -P wordlist.txt ssh://<ip>. Key-based auth is always stronger than password auth.'},
+  23:{service:'Telnet',protocol:'TCP',risk:'Critical',what:'Remote terminal protocol sending all data including credentials in cleartext. Largely replaced by SSH but still found on legacy systems, routers, and IoT devices.',attack:'Trivial to sniff with Wireshark — everything is plaintext. Brute-force is straightforward. MITM attacks capture all traffic. Finding open Telnet during recon is a major red flag.',defense:['Disable Telnet entirely — use SSH','Block port 23 at the firewall','Audit all devices: printers, routers, IoT','Apply firmware updates on legacy devices'],nmap:['nmap -p 23 <target>','nmap --script telnet-ntlm-info -p 23 <target>'],tools:['Wireshark','Hydra','Netcat','Metasploit'],exam:'Telnet (port 23) = the canonical example of an insecure cleartext protocol. Any exam question about replacing insecure remote access: SSH replaces Telnet. Wireshark can capture Telnet credentials in real time.'},
+  25:{service:'SMTP',protocol:'TCP',risk:'Medium',what:'Simple Mail Transfer Protocol sends email between servers. Often misconfigured to allow open relaying, which lets anyone route mail through the server.',attack:'Open relay abuse for spam/phishing campaigns. SMTP user enumeration via VRFY and EXPN commands reveals valid accounts. Credential brute-force and spoofed sender attacks.',defense:['Disable open relay configuration','Require SMTP authentication','Implement SPF, DKIM, and DMARC records','Use TLS encryption (ports 587 or 465)'],nmap:['nmap -p 25 <target>','nmap --script smtp-open-relay -p 25 <target>','nmap --script smtp-enum-users -p 25 <target>'],tools:['smtp-user-enum','Swaks','Metasploit','Hydra'],exam:'SMTP port 25. VRFY and EXPN enumerate valid usernames. Open relay = critical misconfiguration. Ties directly to Module 4 social engineering — phishing starts with email infrastructure recon.'},
+  53:{service:'DNS',protocol:'TCP/UDP',risk:'Medium',what:'Domain Name System resolves domain names to IP addresses. UDP port 53 for queries, TCP port 53 for zone transfers and large responses.',attack:'DNS zone transfer (AXFR) dumps all records if misconfigured. DNS cache poisoning redirects traffic. DNS amplification is used in DDoS. Subdomain enumeration reveals hidden infrastructure.',defense:['Restrict zone transfers to authorized secondary servers only','Enable DNSSEC for cryptographic record signing','Rate-limit DNS queries to prevent amplification','Monitor for unusual query volumes or record changes'],nmap:['nmap -p 53 <target>','nmap --script dns-zone-transfer -p 53 <target>','nmap -sU -p 53 <target>'],tools:['dig','nslookup','dnsrecon','fierce'],exam:'Zone transfer: dig axfr @<nameserver> <domain> — if unrestricted, you get the full DNS map. Key Module 4 footprinting technique. DNS uses UDP for queries and TCP for zone transfers.'},
+  80:{service:'HTTP',protocol:'TCP',risk:'Medium',what:'Hypertext Transfer Protocol serves web content in plaintext. Any data transmitted over HTTP is visible to anyone on the network path between client and server.',attack:'SQLi, XSS, directory traversal, file inclusion. Sensitive data exposed in cleartext. Banner grabbing reveals server/version for vulnerability targeting.',defense:['Force HTTPS redirect — never serve sensitive content over HTTP','Implement a Web Application Firewall (WAF)','Keep web server and CMS fully patched','Disable directory listing and verbose error pages'],nmap:['nmap -p 80 <target>','nmap --script http-title -p 80 <target>','nmap --script http-enum -p 80 <target>'],tools:['Nikto','Burp Suite','Gobuster','sqlmap'],exam:'HTTP = cleartext, HTTPS = encrypted. Banner grabbing: curl -I http://<ip> reveals server software. Nikto scans for web vulnerabilities automatically.'},
+  443:{service:'HTTPS',protocol:'TCP',risk:'Low',what:'HTTP over TLS/SSL encrypts web traffic in transit. Standard for secure websites. Still vulnerable to application-layer attacks since encryption only protects the channel.',attack:'TLS misconfigurations (SSLv2/v3, weak ciphers), expired or invalid certificates, and full web app attacks (SQLi, XSS, CSRF) still apply regardless of HTTPS.',defense:['Use TLS 1.2 minimum, prefer TLS 1.3','Implement HSTS headers to prevent downgrade attacks','Audit SSL/TLS config regularly with testssl.sh or SSLyze','Keep certificates current and use trusted CAs'],nmap:['nmap -p 443 <target>','nmap --script ssl-enum-ciphers -p 443 <target>','nmap --script ssl-cert -p 443 <target>'],tools:['testssl.sh','Burp Suite','SSLyze','Nikto'],exam:'HTTPS does not prevent web application attacks — it only encrypts the channel. Transport security ≠ application security. This distinction is a common exam point.'},
+  445:{service:'SMB',protocol:'TCP',risk:'Critical',what:'Server Message Block enables Windows file and printer sharing. One of the most exploited services ever due to EternalBlue (MS17-010) enabling wormable remote code execution.',attack:'EternalBlue exploited by WannaCry and NotPetya ransomware. Pass-the-hash attacks steal NTLM credential hashes. Null session enumeration exposes shares. SMB is the primary ransomware lateral movement vector.',defense:['Disable SMBv1 immediately — no exceptions','Block port 445 at network perimeter','Apply MS17-010 patch (KB4012212)','Require SMB signing to prevent relay attacks'],nmap:['nmap -p 445 <target>','nmap --script smb-vuln-ms17-010 -p 445 <target>','nmap --script smb-enum-shares -p 445 <target>'],tools:['Metasploit (EternalBlue)','CrackMapExec','Responder','Impacket'],exam:'SMB port 445. EternalBlue (MS17-010) → WannaCry/NotPetya. Direct tie to Module 3 malware and system hacking labs. Disable SMBv1 is the #1 SMB hardening action.'},
+  1433:{service:'MSSQL',protocol:'TCP',risk:'High',what:'Microsoft SQL Server database engine. Direct access can expose entire databases. xp_cmdshell stored procedure allows OS command execution from within SQL queries.',attack:'Brute-force SA (sysadmin) account, enable xp_cmdshell to run OS commands, SQL injection from web apps, credential theft for lateral movement.',defense:['Disable xp_cmdshell unless explicitly required','Apply least-privilege to application database accounts','Never expose port 1433 directly to the internet','Enable SQL Server auditing and logging'],nmap:['nmap -p 1433 <target>','nmap --script ms-sql-info -p 1433 <target>','nmap --script ms-sql-brute -p 1433 <target>'],tools:['Metasploit','sqsh','Hydra','sqlmap'],exam:'xp_cmdshell = OS command execution from SQL Server. SA brute-force + xp_cmdshell = full server compromise. Common in pen test scenarios.'},
+  3389:{service:'RDP',protocol:'TCP',risk:'High',what:'Remote Desktop Protocol provides graphical remote access to Windows systems. Widely used for system administration. Large attack surface due to historical critical vulnerabilities.',attack:'BlueKeep (CVE-2019-0708) is a wormable pre-auth RCE. Credential brute-force extremely common. RDP exposed to the internet is the #1 ransomware initial access vector in 2020-2024.',defense:['Never expose RDP directly to internet — use a VPN first','Enable Network Level Authentication (NLA)','Deploy RDP gateways with MFA','Consider changing from default port 3389'],nmap:['nmap -p 3389 <target>','nmap --script rdp-enum-encryption -p 3389 <target>'],tools:['Hydra','Metasploit (BlueKeep)','xfreerdp','CrackMapExec'],exam:'RDP port 3389. BlueKeep (CVE-2019-0708) = landmark wormable RDP vuln. RDP over internet = top ransomware entry. Module 3 system hacking and DoS labs both relate to RDP abuse.'},
+};
+
+const LAYERS = [
+  {name:'Application',num:4,color:'var(--blue)',desc:'Closest to the user — provides network services directly to applications. Handles data formatting, encryption (TLS), and session management.',protocols:['HTTP','HTTPS','FTP','SSH','Telnet','SMTP','DNS','SNMP','POP3','IMAP','DHCP'],exam:'Application layer = where most attacks occur (SQLi, XSS, phishing, DNS poisoning). OSI equivalent: layers 5 (Session), 6 (Presentation), 7 (Application).'},
+  {name:'Transport',num:3,color:'var(--accent)',desc:'Provides end-to-end communication between hosts. TCP = reliable, ordered, connection-oriented (uses handshake). UDP = fast, connectionless, no guaranteed delivery.',protocols:['TCP','UDP'],exam:'TCP vs UDP is critical exam content. TCP = reliable + handshake (port scanning exploits this). UDP = fast, no handshake (DNS, DHCP, video). TCP flags and the three-way handshake live at this layer.'},
+  {name:'Internet',num:2,color:'var(--amber)',desc:'Handles logical IP addressing and routing packets across networks. Responsible for getting packets from source to destination. No guaranteed delivery — that is TCP\'s job at Transport.',protocols:['IP (IPv4/IPv6)','ICMP','ARP','OSPF','BGP'],exam:'IP spoofing happens at this layer. ICMP is used by ping and traceroute. ARP resolves IPs → MACs and is exploited in ARP poisoning MITM attacks. IPv4 (32-bit) vs IPv6 (128-bit) is a common exam question.'},
+  {name:'Network Access',num:1,color:'var(--purple)',desc:'Handles physical transmission of data — MAC addressing, Ethernet framing, physical media (cables, Wi-Fi). The lowest layer in the TCP/IP model.',protocols:['Ethernet','Wi-Fi (802.11)','ARP','MAC addressing','PPP'],exam:'MAC addresses live here. ARP resolves IPs to MAC addresses — ARP poisoning (MITM) exploits this. Switches operate at this layer using MAC tables. OSI equivalent: Layer 1 (Physical) + Layer 2 (Data Link).'},
+];
+
+const FLAGS = [
+  {flag:'SYN',full:'Synchronize',color:'var(--blue)',desc:'Initiates a TCP connection. First step of the three-way handshake. Used in SYN scans (-sS) and is the packet type flooded in SYN flood DoS attacks.'},
+  {flag:'ACK',full:'Acknowledge',color:'var(--accent)',desc:'Confirms receipt of data. Steps 2 and 3 of the handshake both use ACK. Nmap -sA sends ACK to map firewall rules (filtered vs unfiltered).'},
+  {flag:'FIN',full:'Finish',color:'var(--amber)',desc:'Gracefully closes a connection. Nmap -sF sends FIN — closed ports reply RST, open ports ignore. Used for firewall evasion.'},
+  {flag:'RST',full:'Reset',color:'var(--red)',desc:'Abruptly terminates a connection. Closed ports respond with RST to unexpected packets. SYN stealth scan sends RST after receiving SYN-ACK to avoid completing the handshake.'},
+  {flag:'PSH',full:'Push',color:'var(--purple)',desc:'Tells the receiver to push buffered data to the application immediately. Used in Nmap\'s Xmas scan alongside FIN and URG.'},
+  {flag:'URG',full:'Urgent',color:'var(--muted)',desc:'Marks data as urgent — process before other data. Used in Xmas scan with FIN+PSH. Rarely used in normal traffic.'},
+];
+
+const TCP_ATTACKS = [
+  {name:'SYN Flood',layer:'Transport layer',risk:'High',how:'Attacker sends massive volume of SYN packets with spoofed source IPs without completing the handshake. Server allocates resources for each half-open connection (SYN_RECEIVED state) until memory is exhausted and it stops accepting new connections.',defense:['SYN cookies — server doesn\'t allocate full resources until ACK received','Rate limiting on inbound SYN packets per source IP','Firewall/IPS rules to detect and drop flood traffic','Load balancers and DDoS scrubbing services'],exam:'SYN flood = the classic DoS attack exploiting the TCP handshake. Server holds half-open connections until resource exhaustion. Directly ties to Module 3 DoS lab 3-4.'},
+  {name:'IP Spoofing',layer:'Internet layer',risk:'High',how:'Attacker forges the source IP address in packets to impersonate another host, bypass IP-based authentication, or hide the attack origin. Core technique in amplification DDoS attacks.',defense:['Ingress filtering (BCP38) — routers/ISPs drop packets with invalid source IPs','Don\'t rely on source IP alone for authentication','Use encrypted protocols (IPSec, TLS) that include integrity checks'],exam:'IP spoofing explains why IP-based authentication is insecure. Used in Smurf (ICMP), DNS amplification, and NTP amplification DDoS attacks. ISPs implementing BCP38 significantly reduces this.'},
+  {name:'ARP Poisoning (MITM)',layer:'Network Access layer',risk:'High',how:'Attacker broadcasts fake ARP replies mapping their MAC address to a legitimate IP. Other hosts update their ARP cache, sending traffic destined for the victim through the attacker\'s machine — classic man-in-the-middle.',defense:['Dynamic ARP Inspection (DAI) on managed switches','Static ARP entries for critical hosts','Use encrypted protocols so intercepted traffic is useless','Network monitoring for duplicate ARP responses'],exam:'ARP poisoning = primary LAN-based MITM technique. Tools: arpspoof, Ettercap. Directly ties to Module 3 sniffing lab — sniffing is most effective after ARP poisoning redirects the traffic flow.'},
+  {name:'Session Hijacking',layer:'Application/Transport',risk:'High',how:'Attacker steals or predicts a valid session token to take over an authenticated user session. Can occur after sniffing unencrypted traffic, via XSS stealing cookies, or predicting weak session IDs.',defense:['HTTPS everywhere — encrypt tokens in transit','Regenerate session IDs immediately after login','Set HttpOnly and Secure flags on session cookies','Short session timeouts and re-authentication for sensitive actions'],exam:'Session hijacking is why HTTPS matters for authenticated sessions. TCP sequence number prediction was the classic method; cookie theft via XSS is the modern variant. Ties to Module 3 system hacking.'},
+  {name:'DNS Cache Poisoning',layer:'Application layer',risk:'Medium',how:'Attacker injects malicious DNS records into a resolver\'s cache. Subsequent queries for that domain return the attacker\'s IP, redirecting users to fake sites while showing legitimate domain names.',defense:['DNSSEC — cryptographically signs DNS records','DNS over HTTPS (DoH) or DNS over TLS (DoT)','Short TTLs limit the poisoning window','Monitor for unexpected DNS record changes'],exam:'Kaminsky attack (2008) is the landmark DNS cache poisoning exploit. DNSSEC is the fix. Ties to Module 4 footprinting — DNS is a primary recon target before any attack.'},
+  {name:'Smurf Attack',layer:'Internet layer',risk:'Medium',how:'Attacker sends ICMP echo requests to a network\'s broadcast address with the victim\'s spoofed source IP. Every host on the network responds to the victim, amplifying the traffic volume by the number of hosts.',defense:['Disable IP directed broadcast on all routers','Block ICMP broadcasts at the network perimeter','ISP-level ingress filtering (BCP38) reduces IP spoofing'],exam:'Smurf = ICMP amplification DDoS. Largely mitigated on modern networks by disabling directed broadcasts. Classic exam topic: spoofed IP + broadcast = amplification attack.'},
+];
+
+const MALWARE = [
+  {name:'Virus',type:'Infector',desc:'Attaches to legitimate files/programs. Requires user action to execute. Spreads by infecting other files. Example: Melissa virus spread via Word macros.'},
+  {name:'Worm',type:'Self-propagating',desc:'Replicates itself across networks without user interaction. Exploits vulnerabilities automatically. Example: WannaCry used EternalBlue to spread across SMB.'},
+  {name:'Trojan',type:'Deceptive',desc:'Disguised as legitimate software. Does not self-replicate. Creates backdoors or drops payloads. Example: Remote Access Trojans (RATs) like njRAT.'},
+  {name:'Rootkit',type:'Stealth / Privilege',desc:'Hides itself and other malware from the OS and security tools. Operates at kernel level. Extremely difficult to detect and remove. Example: Sony BMG rootkit.'},
+  {name:'Ransomware',type:'Extortion',desc:'Encrypts victim files and demands payment for decryption key. Spreads via phishing or exploits. Example: WannaCry, REvil, LockBit.'},
+  {name:'Spyware',type:'Data theft',desc:'Secretly monitors user activity, keystrokes, credentials, and screen. Exfiltrates data to attacker. Example: keyloggers, stalkerware.'},
+  {name:'Adware',type:'Unwanted',desc:'Displays unwanted advertisements. Often bundled with free software. Lower severity but can open doors for other malware.'},
+  {name:'Botnet / Bot',type:'Coordinated',desc:'Compromised systems (bots) controlled by a C2 server. Used for DDoS, spam, credential stuffing. Example: Mirai botnet exploited IoT devices.'},
+  {name:'Logic Bomb',type:'Time-triggered',desc:'Malicious code that executes when a specific condition is met (date, user action). Often planted by insiders. Example: delete files on termination date.'},
+  {name:'Backdoor',type:'Persistence',desc:'Hidden method to bypass normal authentication to maintain access. Often installed by Trojans or attackers after initial compromise.'},
+];
+
+const DOS_ATTACKS = [
+  {name:'SYN Flood',how:'Floods target with SYN packets without completing handshake. Exhausts server connection table (half-open connections).',defense:['SYN cookies','Rate limiting','IPS/IDS','Load balancers'],exam:'Most classic DoS attack. Exploits TCP handshake state. Server holds SYN_RECEIVED state for each packet until timeout.'},
+  {name:'Ping of Death',how:'Sends malformed or oversized ICMP packets (>65,535 bytes). Causes buffer overflow and crash on unpatched systems.',defense:['Patch OS systems','Block oversized ICMP at firewall','Modern OSes are not vulnerable'],exam:'Historical attack, now patched. Still tested because it illustrates protocol-level vulnerabilities and buffer overflows.'},
+  {name:'Smurf Attack',how:'ICMP echo requests sent to broadcast with spoofed victim IP. All hosts reply to victim — amplification by number of hosts.',defense:['Disable directed broadcast on routers','BCP38 ingress filtering'],exam:'Amplification DDoS via ICMP + IP spoofing + broadcast. Formula: (# hosts on network) × (packet size) = amplification factor.'},
+  {name:'Teardrop Attack',how:'Sends fragmented IP packets with overlapping offset values. Reassembly causes kernel crash on vulnerable systems.',defense:['OS patching','Firewall packet reassembly filtering'],exam:'Exploits IP fragmentation/reassembly process. Another historical attack illustrating protocol implementation weaknesses.'},
+  {name:'UDP Flood',how:'Floods target with UDP packets to random ports. Target checks for applications, finds none, responds with ICMP unreachable — consuming resources.',defense:['Rate limiting UDP traffic','Firewall to drop unexpected UDP','Upstream DDoS filtering'],exam:'UDP floods are stateless and easy to generate at massive scale. No handshake means spoofing is trivial.'},
+  {name:'HTTP Flood (Layer 7)',how:'Sends enormous number of seemingly legitimate HTTP GET/POST requests to exhaust web server resources. Harder to filter than network-layer attacks.',defense:['WAF rate limiting','CAPTCHA challenges','CDN with DDoS protection (Cloudflare)','Bot detection'],exam:'Application-layer DDoS. Much harder to defend than network-layer floods because requests look legitimate. Ties to Module 5 web service scanning.'},
+];
+
+const SYS_HACK_PHASES = [
+  {phase:'1',name:'Reconnaissance',color:'var(--blue)',desc:'Passive and active information gathering about the target. Includes OSINT, WHOIS, DNS enumeration, Google Dorks, social media.',tools:['Maltego','theHarvester','Shodan','WHOIS','dig']},
+  {phase:'2',name:'Scanning & Enumeration',color:'var(--accent)',desc:'Active probing to identify live hosts, open ports, running services, OS versions, and potential vulnerabilities.',tools:['Nmap','Nessus','OpenVAS','Netcat','Nikto']},
+  {phase:'3',name:'Gaining Access',color:'var(--amber)',desc:'Exploiting discovered vulnerabilities to gain initial access. Uses exploits, password attacks, social engineering, or malware.',tools:['Metasploit','Hydra','Burp Suite','SQLmap','Aircrack-ng']},
+  {phase:'4',name:'Maintaining Access',color:'var(--red)',desc:'Installing backdoors, rootkits, or creating new accounts to ensure persistent access even if the initial vulnerability is patched.',tools:['Metasploit (meterpreter)','Netcat','RATs','Rootkits','Scheduled tasks']},
+  {phase:'5',name:'Covering Tracks',color:'var(--muted)',desc:'Clearing logs, removing tools, and hiding evidence of the intrusion to avoid detection and maintain deniability.',tools:['Log clearing (wevtutil)','Timestomping','Steganography','CCleaner','Covert channels']},
+];
+
+const RECON_TOOLS = [
+  {name:'theHarvester',desc:'Collects emails, subdomains, hosts, and names from public sources (Google, Bing, LinkedIn). Key OSINT tool.'},
+  {name:'Maltego',desc:'Graphical OSINT and link analysis tool. Maps relationships between domains, IPs, people, and organizations.'},
+  {name:'Shodan',desc:'Search engine for internet-connected devices. Finds exposed services, webcams, SCADA, and vulnerable systems.'},
+  {name:'WHOIS',desc:'Queries domain registration data: registrar, admin contacts, name servers, registration dates.'},
+  {name:'dig / nslookup',desc:'DNS query tools. dig is more powerful. Used for zone transfers, record lookups, and DNS reconnaissance.'},
+  {name:'dnsrecon',desc:'Automated DNS enumeration: zone transfers, reverse lookups, brute-force subdomains, cache snooping.'},
+  {name:'fierce',desc:'Semi-brute-force DNS scanner. Locates non-contiguous IP space and hostnames associated with a domain.'},
+  {name:'Recon-ng',desc:'Full-featured web reconnaissance framework. Modular, similar to Metasploit but for OSINT tasks.'},
+  {name:'Google Dorks',desc:'Advanced Google search operators (site:, filetype:, inurl:) to find sensitive data indexed by Google.'},
+  {name:'Netcraft',desc:'Provides web server technology, hosting history, SSL certificate info, and site uptime data.'},
+  {name:'traceroute / tracert',desc:'Maps network path to target, revealing intermediate routers, hops, and network topology.'},
+  {name:'Metagoofil',desc:'Extracts metadata from public documents (PDF, DOCX, XLSX) — reveals usernames, software, internal paths.'},
+];
+
+const SE_ATTACKS = [
+  {name:'Phishing',badge:'badge-red',desc:'Mass email campaign impersonating trusted entities (banks, IT, HR) to steal credentials or deliver malware. Uses spoofed sender addresses and urgency.',indicators:'Generic greeting ("Dear Customer"), urgency, suspicious link hover URL, mismatched sender domain.'},
+  {name:'Spear Phishing',badge:'badge-red',desc:'Targeted phishing against specific individuals using personalized information gathered during recon (name, role, coworkers). Much higher success rate than generic phishing.',indicators:'Uses victim\'s real name, references specific projects or colleagues, highly convincing.'},
+  {name:'Whaling',badge:'badge-red',desc:'Spear phishing targeting executives (CEO, CFO, CTO). High value targets with authority to authorize wire transfers or expose sensitive data. Also called "CEO fraud."',indicators:'Targets C-suite specifically, often requests urgent wire transfers or sensitive files.'},
+  {name:'Vishing',badge:'badge-amber',desc:'Voice phishing — phone calls impersonating IT support, banks, or government agencies to extract sensitive info or gain remote access. "Hi, this is IT, we detected a virus on your computer..."',indicators:'Unsolicited calls requesting passwords, remote access, or payment. Always verify via callback.'},
+  {name:'Smishing',badge:'badge-amber',desc:'SMS phishing — text messages with malicious links or urgent requests. "Your package is held, click here to reschedule delivery." Exploits trust in SMS and mobile urgency.',indicators:'Unexpected SMS with links, requests for credentials, spoofed short codes.'},
+  {name:'Pharming',badge:'badge-blue',desc:'Redirects users from legitimate websites to malicious ones via DNS poisoning or hosts file manipulation. Unlike phishing, doesn\'t require the user to click a link.',indicators:'Legitimate URL in browser but wrong page content. SSL certificate errors. Detected via DNSSEC.'},
+  {name:'Baiting',badge:'badge-purple',desc:'Leaves infected USB drives or other media in public locations hoping a curious employee will plug it in. Exploits human curiosity. Physical social engineering.',indicators:'Unknown USB drives found in parking lots, lobbies, or common areas.'},
+  {name:'Tailgating / Piggybacking',badge:'badge-purple',desc:'Physically following an authorized person through a secured door without using credentials. "Can you hold the door? My hands are full." Classic physical security bypass.',indicators:'Someone asking you to hold the door, fake deliveries, "lost badge" claims.'},
+  {name:'Pretexting',badge:'badge-amber',desc:'Creating a fabricated scenario (pretext) to manipulate a target. Attacker invents a fake identity or situation to gain trust before making the real request.',indicators:'Impersonating vendors, auditors, new employees, or government officials.'},
+];
+
+const PHISHING = [
+  {name:'Spear Phishing',color:'var(--red)',desc:'Targeted at a specific person using personalized recon data.'},
+  {name:'Whaling',color:'var(--red)',desc:'Spear phishing aimed at executives (CEO/CFO). High value, high effort.'},
+  {name:'Vishing',color:'var(--amber)',desc:'Voice (phone) phishing. IT support impersonation is most common.'},
+  {name:'Smishing',color:'var(--amber)',desc:'SMS text message phishing. Package delivery lures are most common.'},
+  {name:'Pharming',color:'var(--blue)',desc:'DNS-based redirect to malicious site. No user click required.'},
+];
+
+// === RENDER FUNCTIONS ===
+
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+function switchSub(page, sub) {
+  const panes = document.querySelectorAll('#page-' + page + ' .subpane');
+  const tabs = document.querySelectorAll('#page-' + page + ' .subtab');
+  panes.forEach(p => p.classList.remove('active'));
+  tabs.forEach(t => t.classList.remove('active'));
+  document.getElementById(page + '-' + sub).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// PORT SCANNER
+function quickPick(port, service) {
+  document.getElementById('portInput').value = port;
+  document.getElementById('serviceInput').value = service;
+  analyzePort();
+}
+function hidePortError() { document.getElementById('portError').style.display = 'none'; }
+
+function analyzePort() {
+  const pv = document.getElementById('portInput').value.trim();
+  const sv = document.getElementById('serviceInput').value.trim().toLowerCase();
+  let entry = null, mp = '';
+  if (pv && PORTS[parseInt(pv)]) { entry = PORTS[parseInt(pv)]; mp = pv; }
+  else if (sv) {
+    for (const [p,d] of Object.entries(PORTS)) {
+      if (d.service.toLowerCase() === sv || d.service.toLowerCase().includes(sv)) { entry = d; mp = p; break; }
+    }
+  }
+  if (!entry) {
+    const err = document.getElementById('portError');
+    err.textContent = pv ? `Port ${pv} isn't in the database. Try a quick-pick above.` : 'Service not found. Enter a port number or use the quick-pick buttons.';
+    err.style.display = 'block';
+    document.getElementById('portResult').style.display = 'none';
+    return;
+  }
+  document.getElementById('portError').style.display = 'none';
+  renderPort(mp, entry);
+}
+
+function renderPort(port, d) {
+  document.getElementById('pNum').textContent = port;
+  document.getElementById('pService').textContent = d.service;
+  document.getElementById('pProto').textContent = 'Protocol: ' + d.protocol;
+  const riskStyles = {Low:'badge-green',Medium:'badge-amber',High:'badge-red',Critical:'badge-red'};
+  document.getElementById('pRisk').innerHTML = `<span class="badge ${riskStyles[d.risk]||'badge-amber'}">${d.risk} risk</span>`;
+  document.getElementById('pWhat').textContent = d.what;
+  document.getElementById('pAttack').textContent = d.attack;
+  const dl = document.getElementById('pDefense'); dl.innerHTML = '';
+  d.defense.forEach(t => { const li = document.createElement('li'); li.textContent = t; dl.appendChild(li); });
+  const nd = document.getElementById('pNmap'); nd.innerHTML = '';
+  d.nmap.forEach(cmd => { const s = document.createElement('span'); s.className = 'code-block'; s.textContent = cmd; nd.appendChild(s); });
+  const td = document.getElementById('pTools'); td.innerHTML = '';
+  d.tools.forEach(t => { const s = document.createElement('span'); s.className = 'tool-pill'; s.textContent = t; td.appendChild(s); });
+  document.getElementById('pExam').textContent = d.exam;
+  document.getElementById('portResult').style.display = 'block';
+}
+
+// LAYERS
+function buildLayers() {
+  const el = document.getElementById('layerList'); el.innerHTML = '';
+  LAYERS.forEach((l, i) => {
+    const div = document.createElement('div');
+    div.className = 'layer-item';
+    div.innerHTML = `<div><span style="font-size:14px;font-weight:500;color:${l.color};">Layer ${l.num}: ${l.name}</span> <span style="font-size:12px;color:var(--dim);margin-left:8px;">${l.protocols.slice(0,3).join(', ')}…</span></div><span style="color:var(--dim);font-size:12px;">click for details →</span>`;
+    div.onclick = () => showLayer(i);
+    el.appendChild(div);
+  });
+}
+
+function showLayer(i) {
+  const l = LAYERS[i];
+  document.getElementById('ldTitle').textContent = `Layer ${l.num}: ${l.name}`;
+  document.getElementById('ldDesc').textContent = l.desc;
+  const pd = document.getElementById('ldProtos'); pd.innerHTML = '';
+  l.protocols.forEach(p => { const s = document.createElement('span'); s.className = 'tool-pill'; s.textContent = p; pd.appendChild(s); });
+  document.getElementById('ldExam').textContent = l.exam;
+  const det = document.getElementById('layerDetail');
+  det.classList.add('open');
+  det.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+// HANDSHAKE
+function buildHandshake() {
+  const steps = [
+    {step:1,from:'Client',to:'Server',flag:'SYN',color:'var(--blue)',desc:'Client sends SYN to initiate connection. Sets an initial sequence number (ISN). Server must be in LISTEN state on the target port.'},
+    {step:2,from:'Server',to:'Client',flag:'SYN-ACK',color:'var(--accent)',desc:'Server acknowledges with SYN-ACK. Confirms the port is OPEN. Sends its own ISN and ACKs the client\'s. Server enters SYN_RECEIVED state.'},
+    {step:3,from:'Client',to:'Server',flag:'ACK',color:'var(--amber)',desc:'Client sends ACK to complete the handshake. Connection is ESTABLISHED. Both sides can now send data. Nmap -sS sends RST here instead to avoid completing the connection.'},
+  ];
+  const el = document.getElementById('hsSteps'); el.innerHTML = '';
+  steps.forEach(s => {
+    const div = document.createElement('div');
+    div.className = 'hs-step';
+    div.innerHTML = `<div class="hs-num" style="background:${s.color};color:#0a0d12;">${s.step}</div><div><div style="font-size:13px;font-weight:500;margin-bottom:4px;color:var(--text);">${s.from} → ${s.to} <code style="color:${s.color};background:transparent;padding:2px 6px;border:1px solid ${s.color};border-radius:4px;">[${s.flag}]</code></div><div style="font-size:13px;color:var(--muted);line-height:1.6;">${s.desc}</div></div>`;
+    el.appendChild(div);
+  });
+}
+
+// FLAGS
+function buildFlags() {
+  const el = document.getElementById('flagGrid'); el.innerHTML = '';
+  FLAGS.forEach(f => {
+    const div = document.createElement('div');
+    div.className = 'flag-card';
+    div.innerHTML = `<div style="font-size:20px;font-weight:600;color:${f.color};margin-bottom:2px;">${f.flag}</div><div style="font-size:11px;color:var(--dim);margin-bottom:8px;font-family:var(--mono);">${f.full}</div><div style="font-size:12px;color:var(--muted);line-height:1.5;">${f.desc}</div>`;
+    el.appendChild(div);
+  });
+}
+
+// PROTOCOLS
+function buildProtos() {
+  const protos = [
+    {layer:'Application',color:'var(--blue)',items:[{name:'HTTP/HTTPS',ports:'80/443',desc:'Web traffic'},{name:'FTP',ports:'20/21',desc:'File transfer (cleartext)'},{name:'SSH',ports:'22',desc:'Encrypted remote access'},{name:'Telnet',ports:'23',desc:'Cleartext remote access'},{name:'SMTP',ports:'25',desc:'Email sending'},{name:'DNS',ports:'53',desc:'Name resolution'},{name:'DHCP',ports:'67/68',desc:'IP assignment'},{name:'SNMP',ports:'161',desc:'Network device management'},{name:'RDP',ports:'3389',desc:'Remote desktop (Windows)'}]},
+    {layer:'Transport',color:'var(--accent)',items:[{name:'TCP',ports:'—',desc:'Reliable, ordered, connection-oriented'},{name:'UDP',ports:'—',desc:'Fast, connectionless, no guarantee'}]},
+    {layer:'Internet',color:'var(--amber)',items:[{name:'IP (v4/v6)',ports:'—',desc:'Logical addressing & routing'},{name:'ICMP',ports:'—',desc:'Ping, traceroute, error messages'},{name:'ARP',ports:'—',desc:'IP → MAC address resolution'}]},
+    {layer:'Network Access',color:'var(--purple)',items:[{name:'Ethernet',ports:'—',desc:'Wired LAN framing'},{name:'Wi-Fi (802.11)',ports:'—',desc:'Wireless LAN'},{name:'MAC addressing',ports:'—',desc:'Hardware-level identification'}]},
+  ];
+  const el = document.getElementById('protoList'); el.innerHTML = '';
+  protos.forEach(p => {
+    const sec = document.createElement('div');
+    sec.innerHTML = `<div style="font-size:12px;font-weight:500;color:${p.color};text-transform:uppercase;letter-spacing:0.08em;margin:1rem 0 8px;">${p.layer} layer</div>`;
+    const grid = document.createElement('div');
+    grid.style.cssText = 'display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;margin-bottom:8px;';
+    p.items.forEach(item => {
+      const c = document.createElement('div');
+      c.className = 'recon-card';
+      c.innerHTML = `<div class="recon-card-name">${item.name}</div><div style="font-size:11px;font-family:var(--mono);color:var(--dim);margin-bottom:4px;">port ${item.ports}</div><div class="recon-card-desc">${item.desc}</div>`;
+      grid.appendChild(c);
+    });
+    sec.appendChild(grid);
+    el.appendChild(sec);
+  });
+}
+
+// TCP ATTACKS
+function buildTcpAttacks() {
+  const el = document.getElementById('tcpAttackList'); el.innerHTML = '';
+  const rs = {High:'badge-red',Medium:'badge-amber'};
+  TCP_ATTACKS.forEach((a, i) => {
+    const div = document.createElement('div');
+    div.className = 'attack-item';
+    div.innerHTML = `<div><span style="font-size:14px;font-weight:500;color:var(--text);">${a.name}</span> <span style="font-size:12px;color:var(--dim);margin-left:6px;">${a.layer}</span></div><span class="badge ${rs[a.risk]||'badge-amber'}">${a.risk}</span>`;
+    div.onclick = () => showTcpAttack(i);
+    el.appendChild(div);
+  });
+}
+
+function showTcpAttack(i) {
+  const a = TCP_ATTACKS[i];
+  document.getElementById('taTitle').textContent = a.name;
+  document.getElementById('taLayer').innerHTML = `<span style="color:var(--muted);">${a.layer}</span>`;
+  document.getElementById('taHow').textContent = a.how;
+  const dl = document.getElementById('taDefense'); dl.innerHTML = '';
+  a.defense.forEach(t => { const li = document.createElement('li'); li.textContent = t; dl.appendChild(li); });
+  document.getElementById('taExam').textContent = a.exam;
+  const det = document.getElementById('tcpAttackDetail');
+  det.classList.add('open');
+  det.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+// MALWARE
+function buildMalware() {
+  const el = document.getElementById('malwareGrid'); el.innerHTML = '';
+  MALWARE.forEach(m => {
+    const div = document.createElement('div');
+    div.className = 'malware-card';
+    div.innerHTML = `<div class="malware-name">${m.name}</div><div class="malware-type">${m.type}</div><div class="malware-desc">${m.desc}</div>`;
+    el.appendChild(div);
+  });
+}
+
+// DOS ATTACKS
+function buildDos() {
+  const el = document.getElementById('dosList'); el.innerHTML = '';
+  DOS_ATTACKS.forEach((a, i) => {
+    const div = document.createElement('div');
+    div.className = 'attack-item';
+    div.innerHTML = `<span style="font-size:14px;font-weight:500;color:var(--text);">${a.name}</span><span style="color:var(--dim);font-size:12px;">click for details →</span>`;
+    div.onclick = () => showDos(i);
+    el.appendChild(div);
+  });
+}
+
+function showDos(i) {
+  const a = DOS_ATTACKS[i];
+  document.getElementById('dosTitle').textContent = a.name;
+  document.getElementById('dosHow').textContent = a.how;
+  const dl = document.getElementById('dosDefense'); dl.innerHTML = '';
+  a.defense.forEach(t => { const li = document.createElement('li'); li.textContent = t; dl.appendChild(li); });
+  document.getElementById('dosExam').textContent = a.exam;
+  const det = document.getElementById('dosDetail');
+  det.classList.add('open');
+  det.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+// SYSTEM HACKING PHASES
+function buildSysHack() {
+  const el = document.getElementById('sysHackList'); el.innerHTML = '';
+  SYS_HACK_PHASES.forEach(p => {
+    const div = document.createElement('div');
+    div.style.cssText = 'display:flex;gap:16px;padding:16px;border-radius:8px;border:1px solid var(--border);background:var(--surface);margin-bottom:10px;';
+    div.innerHTML = `<div style="font-size:22px;font-weight:600;color:${p.color};min-width:32px;font-family:var(--mono);">${p.phase}</div><div style="flex:1;"><div style="font-size:15px;font-weight:500;color:var(--text);margin-bottom:4px;">${p.name}</div><div style="font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:10px;">${p.desc}</div><div style="display:flex;flex-wrap:wrap;gap:6px;">${p.tools.map(t=>`<span class="tool-pill">${t}</span>`).join('')}</div></div>`;
+    el.appendChild(div);
+  });
+}
+
+// RECON TOOLS
+function buildReconTools() {
+  const el = document.getElementById('reconGrid'); el.innerHTML = '';
+  RECON_TOOLS.forEach(r => {
+    const div = document.createElement('div');
+    div.className = 'recon-card';
+    div.innerHTML = `<div class="recon-card-name">${r.name}</div><div class="recon-card-desc">${r.desc}</div>`;
+    el.appendChild(div);
+  });
+}
+
+// SOCIAL ENGINEERING
+function buildSE() {
+  const el = document.getElementById('seList'); el.innerHTML = '';
+  SE_ATTACKS.forEach(a => {
+    const div = document.createElement('div');
+    div.className = 'se-card';
+    div.innerHTML = `<div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;"><div class="se-card-title">${a.name}</div><span class="badge ${a.badge}">${a.badge.replace('badge-','')}</span></div><div class="se-card-desc">${a.desc}</div><div style="font-size:12px;color:var(--dim);"><span style="color:var(--muted);font-weight:500;">Indicators: </span>${a.indicators}</div>`;
+    el.appendChild(div);
+  });
+}
+
+// PHISHING
+function buildPhish() {
+  const el = document.getElementById('phishList'); el.innerHTML = '';
+  PHISHING.forEach(p => {
+    const div = document.createElement('div');
+    div.style.cssText = 'display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border-radius:8px;background:var(--surface2);border:1px solid var(--border);margin-bottom:8px;';
+    div.innerHTML = `<div style="font-size:13px;font-weight:600;color:${p.color};min-width:120px;padding-top:1px;">${p.name}</div><div style="font-size:13px;color:var(--muted);line-height:1.6;">${p.desc}</div>`;
+    el.appendChild(div);
+  });
+}
+
+// INIT
+buildLayers();
+buildHandshake();
+buildFlags();
+buildProtos();
+buildTcpAttacks();
+buildMalware();
+buildDos();
+buildSysHack();
+buildReconTools();
+buildSE();
+buildPhish();
+</script>
+</body>
+</html>
